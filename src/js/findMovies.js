@@ -1,0 +1,250 @@
+import { genres } from '../genres.json';
+
+const API_URL = 'https://api.themoviedb.org/3/';
+const API_KEY = 'afc22cf5c573169849cabd6217d3b7d3';
+let requestMovie = '';
+let pageNumber = 1;
+let totalpages = 1;
+let searchingFlag = false;
+
+const inputEl = document.querySelector('.header__input');
+const searchButtonEl = document.querySelector('.search-btn');
+const movieListEl = document.querySelector('.movie-list');
+const closeModalBtn = document.querySelector('.modal__button');
+const paginationBtn = document.querySelectorAll('.pagination-btn');
+const mainPaginationBtn = document.querySelector('.pagination-btn__main');
+const arrowLeftBtn = document.querySelector('.pagination-btn__arrow-left');
+const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
+
+
+showMovies(createCurrentUrl(pageNumber));
+
+
+searchButtonEl.addEventListener('click', loadMovies);
+inputEl.addEventListener('input', serchingParametr);
+movieListEl.addEventListener('click', showModal);
+closeModalBtn.addEventListener('click', () => closeModal());
+document.addEventListener("keydown", e => {        
+        if (e.code === 'Escape') {
+            closeModal();
+        }
+});
+document.querySelector('.drop-box').addEventListener('click', e => {    
+    if (!document.querySelector('.modal').contains(e.target)) {
+        closeModal();
+    }
+});
+arrowLeftBtn.addEventListener('click', () => {
+    if (pageNumber <= 1) {
+        return; 
+    }
+    pageNumber -= 1;    
+    if (!searchingFlag){
+        showMovies(createCurrentUrl(pageNumber));
+    } else {
+        showMovies(createSearchingUrl(requestMovie, pageNumber));
+    }    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+arrowRightBtn.addEventListener('click', () => {
+    if (totalpages <= pageNumber) {
+        return;        
+    }
+    pageNumber += 1;    
+    if (!searchingFlag){
+        showMovies(createCurrentUrl(pageNumber));
+    } else {
+        showMovies(createSearchingUrl(requestMovie, pageNumber));
+    }    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function createCurrentUrl(pageNumber) {
+    return `${API_URL}trending/movie/week?api_key=${API_KEY}&page=${pageNumber}`;
+}
+
+function createSearchingUrl(requestMovie, pageNumber) {
+    return `${API_URL}search/movie?api_key=${API_KEY}&query=${requestMovie.trim()}&page=${pageNumber}`;
+}
+
+function loadMovies(e) {   
+
+    let check = checkforNotFoundNotification(requestMovie.trim().length < 1);
+
+    if (check) {
+        pageNumber = 1;
+        searchingFlag = true;        
+        showMovies(createSearchingUrl(requestMovie, pageNumber));
+    }    
+}
+
+function showMovies(url) {
+    fetch(url)
+        .then(response => response.json())
+        .then(movies => {
+            console.log(movies);
+
+            checkforNotFoundNotification(movies.results === undefined || movies.results.length < 1);
+            
+            if (movies.results.length !== 0) {
+                clearPage();                
+                totalpages = movies.total_pages;
+                puginationNumeration(pageNumber, totalpages);                
+                movieListEl.insertAdjacentHTML('beforeend', createMoviesList(movies));              
+            }
+            
+                                
+        })
+        .catch(error => console.log(error));
+}
+
+function serchingParametr(e) {
+    requestMovie = e.currentTarget.value;    
+}
+
+function createMoviesList(movies) {    
+    return movies.results.map(({ poster_path, id, title, genre_ids, release_date }) => {        
+        return `<li class="movie-item">
+                    <img class="movie-img" src="https://image.tmdb.org/t/p/w300${poster_path}" data-id="${id}" alt="${title}" width="280">
+                    <h2 class="movie-title">${title}</h2>
+                    <p class="movie-description">${createGenresString(genre_ids)} | ${checkAndCreateDate(release_date)}</p>
+                </li>`;
+    }).join('');
+}
+
+function createGenresString(genre_ids) {
+    if (genre_ids.length < 1) {
+        return 'Unknown genre';
+    }
+
+    if (genre_ids.length > 2) {
+        return genre_ids.slice(0, 2).map(id => {
+            for (let i = 0; i < genres.length; i += 1) {
+                if (genres[i].id === id) {
+                    return genres[i].name;
+                }
+            }
+        }).join(', ') + ', others...'; 
+    }
+    return genre_ids.map(id => {
+            for (let i = 0; i < genres.length; i += 1) {
+                if (genres[i].id === id) {
+                    return genres[i].name;
+                }
+            }
+        }).join(', ');         
+}
+
+function checkAndCreateDate(release_date) {
+    let date = 'Unknown date';
+    if (release_date) {
+        date = release_date.slice(0, 4);
+    }
+
+    return date;
+}
+
+function clearPage() {
+    movieListEl.innerHTML = '';
+}
+
+function showNotFoundNotification() {
+    document.querySelector('.not-found-notification').classList.remove('disabled');
+}
+
+function clearNotFoundNotification() {
+    document.querySelector('.not-found-notification').classList.add('disabled');
+}
+
+function checkforNotFoundNotification(flag) {
+    if (flag) {
+        showNotFoundNotification();
+        
+    } else {
+        clearNotFoundNotification();
+    }
+    return document.querySelector('.not-found-notification').classList.contains('disabled');
+}
+
+function showModal(e) {
+    if (e.target.nodeName !== 'IMG') {
+        return;
+    }       
+
+    document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
+
+    let url = `${API_URL}movie/${e.target.dataset.id}?api_key=${API_KEY}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(movie => {
+            console.log(movie);      
+            document.querySelector('.modal-thumb').insertAdjacentHTML('beforeend', createModalCard(movie));
+                                            
+        })
+        .catch(error => console.log(error));
+}
+
+function closeModal() {
+    document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
+    document.querySelector('.modal-thumb').innerHTML = '';
+}
+
+function createModalCard(movie) {    
+    return `<img class="modal__img" src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="" width="240">
+                <div class="modal__description-thumb">
+                    <h2 class="modal__title">${movie.title}</h2>
+                    <ul class="movie-data">
+                        <ul class="movie-data__name">
+                            <li>Vote / Votes</li>
+                            <li>Popularity</li>
+                            <li>Original Title</li>
+                            <li>Genre</li>
+                        </ul>
+                    
+                        <ul class="movie-data__content">
+                            <li class="movie-data__item">
+                                <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
+                            </li>
+                            <li class="movie-data__item">
+                                <span class="movie-popularity__item">${movie.popularity}</span>
+                            </li>
+                            <li class="movie-data__item">
+                                <span class="movie-orig-title__item">${movie.original_title}</span>
+                            </li>
+                            <li class="movie-data__item">
+                                <span class="movie-genre__item">${createModalGenresString(movie.genres)}</span>
+                            </li>
+                        </ul>
+                    
+                    </ul>
+                    
+                    <p class="movie-about">About</p>
+                    <p class="movie-about-text">${movie.overview}</p>
+                    <ul class="modal-btns">
+                        <li class="modal-btns__item">
+                            <button class="button add-watched-btn" type="button">Add to Watched</button>
+                        </li>
+                        <li class="modal-btns__item">
+                            <button class="button add-queue-btn" type="button">Add to queue</button>
+                        </li>
+                    </ul>
+                </div>`;
+}
+
+function createModalGenresString(genres) {
+    return genres.map(genre => genre.name).join(', '); 
+}
+
+function puginationNumeration(currentPage, totalpages) {    
+    paginationBtn[0].textContent = currentPage - 4 > 0 ? 1 : '';
+    paginationBtn[1].textContent = currentPage - 4 > 0 ? '...' : '';
+    paginationBtn[2].textContent = currentPage - 2 > 0 ? currentPage - 2 : '';
+    paginationBtn[3].textContent = currentPage - 1 > 0 ? currentPage - 1 : '';
+    mainPaginationBtn.textContent = currentPage;
+    paginationBtn[5].textContent = currentPage + 1 <= totalpages ? currentPage + 1 : '';
+    paginationBtn[6].textContent = currentPage + 2 <= totalpages ? currentPage + 2 : '';
+    paginationBtn[7].textContent = currentPage + 4 <= totalpages ? '...' : '';
+    paginationBtn[8].textContent = currentPage + 4 <= totalpages ? totalpages : '';
+}
+
