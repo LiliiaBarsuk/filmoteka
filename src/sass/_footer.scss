@@ -1,0 +1,30 @@
+.footer {   
+    
+    margin-left: auto;
+    margin-right: auto;
+    
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 48px;
+    padding-right: 36px;
+    text-align: center;
+    
+    font-size: 14px;
+    line-height: 1.14;      
+
+    color: #545454;
+}
+
+.goit-link {
+    text-decoration: underline;
+    color: inherit;
+    cursor: pointer;
+}
+
+// for mobile max-width
+
+@media screen and (max-width: 767px) {
+    .footer {        
+            max-width: 320px;
+    }    
+}
