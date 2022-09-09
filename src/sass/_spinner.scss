@@ -1,0 +1,39 @@
+@keyframes spinner {
+    100% {
+        transform: rotate(3600deg);
+    }
+}
+
+.is-hidden {
+    display: none;
+    visibility: hidden;
+}
+
+.loading-container {
+    top: 30px;
+    margin: 20 auto;
+    text-align: center;
+    position: relative;
+    transform: translateY(-50%);
+}
+
+.spinner {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url('../images/spinner.png') center center;
+    background-size: contain;
+    // transition: 50% 50%;
+    animation: spinner 6s infinite alternate ease-in-out;
+}
+
+
+.loading-text {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    font-family: inherit;
+    margin-left: 0.5em;
+    font-weight: 700;
+    line-height: 1.17;
+}
