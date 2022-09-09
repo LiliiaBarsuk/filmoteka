@@ -1,2 +1,2 @@
-const pagination = document.querySelector('.pagination');
-console.log(pagination);
+const emptyInfo = document.querySelector('.info');
+emptyInfo.classList.remove(`is-hidden`);
