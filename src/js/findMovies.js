@@ -15,6 +15,7 @@ const paginationBtn = document.querySelectorAll('.pagination-btn');
 const mainPaginationBtn = document.querySelector('.pagination-btn__main');
 const arrowLeftBtn = document.querySelector('.pagination-btn__arrow-left');
 const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
+const paginationNumbers = document.querySelector('.pagination-list');
 
 
 showMovies(createCurrentUrl(pageNumber));
@@ -39,25 +40,30 @@ arrowLeftBtn.addEventListener('click', () => {
         return; 
     }
     pageNumber -= 1;    
-    if (!searchingFlag){
-        showMovies(createCurrentUrl(pageNumber));
-    } else {
-        showMovies(createSearchingUrl(requestMovie, pageNumber));
-    }    
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    paginationPageChange();
 });
 arrowRightBtn.addEventListener('click', () => {
     if (totalpages <= pageNumber) {
         return;        
     }
-    pageNumber += 1;    
-    if (!searchingFlag){
-        showMovies(createCurrentUrl(pageNumber));
-    } else {
-        showMovies(createSearchingUrl(requestMovie, pageNumber));
-    }    
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    pageNumber += 1;
+    
+    paginationPageChange();
 });
+paginationNumbers.addEventListener('click', e => {
+    if (e.target.nodeName !== 'BUTTON') {
+        return;
+    }
+
+    if (e.target.textContent && e.target.textContent !== '...') {
+        pageNumber = e.target.textContent;
+
+        paginationPageChange();
+    }    
+});
+
+
 
 function createCurrentUrl(pageNumber) {
     return `${API_URL}trending/movie/week?api_key=${API_KEY}&page=${pageNumber}`;
@@ -105,11 +111,19 @@ function serchingParametr(e) {
 function createMoviesList(movies) {    
     return movies.results.map(({ poster_path, id, title, genre_ids, release_date }) => {        
         return `<li class="movie-item">
-                    <img class="movie-img" src="https://image.tmdb.org/t/p/w300${poster_path}" data-id="${id}" alt="${title}" width="280">
+                    <img class="movie-img" src="${createImg(poster_path)}" data-id="${id}" alt="${title}" width="280">
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(genre_ids)} | ${checkAndCreateDate(release_date)}</p>
                 </li>`;
     }).join('');
+}
+
+function createImg(poster_path) {
+    let posterPath = `https://image.tmdb.org/t/p/w300${poster_path}`;
+    if (poster_path === null) {
+        posterPath = 'https://www.prokerala.com/movies/assets/img/no-poster-available.jpg';
+    }
+    return posterPath;
 }
 
 function createGenresString(genre_ids) {
@@ -180,6 +194,7 @@ function showModal(e) {
         .then(movie => {
             console.log(movie);      
             document.querySelector('.modal-thumb').insertAdjacentHTML('beforeend', createModalCard(movie));
+            document.querySelector('body').classList.add('overflow-hidden');
                                             
         })
         .catch(error => console.log(error));
@@ -188,35 +203,38 @@ function showModal(e) {
 function closeModal() {
     document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
     document.querySelector('.modal-thumb').innerHTML = '';
+    document.querySelector('body').classList.remove('overflow-hidden');
 }
 
 function createModalCard(movie) {    
-    return `<img class="modal__img" src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="" width="240">
+    return `<img class="modal__img" src="${createImg(movie.poster_path)}" alt="" width="240">
                 <div class="modal__description-thumb">
                     <h2 class="modal__title">${movie.title}</h2>
                     <ul class="movie-data">
-                        <ul class="movie-data__name">
-                            <li>Vote / Votes</li>
-                            <li>Popularity</li>
-                            <li>Original Title</li>
-                            <li>Genre</li>
-                        </ul>
-                    
-                        <ul class="movie-data__content">
-                            <li class="movie-data__item">
-                                <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
-                            </li>
-                            <li class="movie-data__item">
-                                <span class="movie-popularity__item">${movie.popularity}</span>
-                            </li>
-                            <li class="movie-data__item">
-                                <span class="movie-orig-title__item">${movie.original_title}</span>
-                            </li>
-                            <li class="movie-data__item">
-                                <span class="movie-genre__item">${createModalGenresString(movie.genres)}</span>
-                            </li>
-                        </ul>
-                    
+                        <li>
+                            <ul class="movie-data__name">
+                                <li>Vote / Votes</li>
+                                <li>Popularity</li>
+                                <li>Original Title</li>
+                                <li>Genre</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="movie-data__content">
+                                <li class="movie-data__item">
+                                    <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-popularity__item">${movie.popularity}</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-orig-title__item">${movie.original_title}</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-genre__item">${createModalGenresString(movie.genres)}</span>
+                                </li>
+                            </ul>
+                        </li>  
                     </ul>
                     
                     <p class="movie-about">About</p>
@@ -237,14 +255,23 @@ function createModalGenresString(genres) {
 }
 
 function puginationNumeration(currentPage, totalpages) {    
-    paginationBtn[0].textContent = currentPage - 4 > 0 ? 1 : '';
-    paginationBtn[1].textContent = currentPage - 4 > 0 ? '...' : '';
-    paginationBtn[2].textContent = currentPage - 2 > 0 ? currentPage - 2 : '';
-    paginationBtn[3].textContent = currentPage - 1 > 0 ? currentPage - 1 : '';
-    mainPaginationBtn.textContent = currentPage;
-    paginationBtn[5].textContent = currentPage + 1 <= totalpages ? currentPage + 1 : '';
-    paginationBtn[6].textContent = currentPage + 2 <= totalpages ? currentPage + 2 : '';
-    paginationBtn[7].textContent = currentPage + 4 <= totalpages ? '...' : '';
-    paginationBtn[8].textContent = currentPage + 4 <= totalpages ? totalpages : '';
+    paginationBtn[0].textContent = Number.parseInt(currentPage) - 4 > 0 ? 1 : '';
+    paginationBtn[1].textContent = Number.parseInt(currentPage) - 4 > 0 ? '...' : '';
+    paginationBtn[2].textContent = Number.parseInt(currentPage) - 2 > 0 ? Number.parseInt(currentPage) - 2 : '';
+    paginationBtn[3].textContent = Number.parseInt(currentPage) - 1 > 0 ? Number.parseInt(currentPage) - 1 : '';
+    mainPaginationBtn.textContent = Number.parseInt(currentPage);
+    paginationBtn[5].textContent = Number.parseInt(currentPage) + 1 <= Number.parseInt(totalpages) ? Number.parseInt(currentPage) + 1 : '';
+    paginationBtn[6].textContent = Number.parseInt(currentPage) + 2 <= Number.parseInt(totalpages) ? Number.parseInt(currentPage) + 2 : '';
+    paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages) ? '...' : '';
+    paginationBtn[8].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages) ? Number.parseInt(totalpages) : '';
+}
+
+function paginationPageChange() {
+    if (!searchingFlag){
+            showMovies(createCurrentUrl(pageNumber));
+        } else {
+            showMovies(createSearchingUrl(requestMovie, pageNumber));
+        }    
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

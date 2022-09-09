@@ -68,7 +68,7 @@
 }
 
 .movie-data__name {
-    margin-right: 40px;
+    margin-right: 32px;
 
     color: #8C8C8C;
 
@@ -88,13 +88,22 @@
     text-align: center;
 }
 
-.movie-votes__first {
+.movie-votes__first,
+.movie-votes__sec {
     display: flex;
     text-align: center;
     justify-content: center;
-    width: 36px;
-    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;    
+}
+
+.movie-votes__first {
     background-color: #FF6B01;
+}
+
+.movie-votes__sec {
+    background-color: #F7F7F7;
 }
 
 .movie-about {
@@ -188,5 +197,9 @@
     .add-queue-btn {
         width: 136px;
     }
+}
+
+body.overflow-hidden {
+    overflow: hidden;
 }
 
