@@ -18,6 +18,10 @@ const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
 const paginationNumbers = document.querySelector('.pagination-list');
 const pagination = document.querySelector('.pagination');
 
+const loadSpinner = document.querySelector('.loading-container');
+
+loadSpinner.classList.add('is-hidden__spinner');
+
 showMovies(createCurrentUrl(pageNumber));
 
 searchButtonEl.addEventListener('click', loadMovies);
@@ -72,10 +76,10 @@ function createSearchingUrl(requestMovie, pageNumber) {
 
 function loadMovies(e) {
   let check = checkforNotFoundNotification(requestMovie.trim().length < 1);
-
   if (check) {
     pageNumber = 1;
     searchingFlag = true;
+    loadSpinner.classList.remove('is-hidden__spinner');
     showMovies(createSearchingUrl(requestMovie, pageNumber));
   }
 }
@@ -177,6 +181,7 @@ function showNotFoundNotification() {
   document
     .querySelector('.not-found-notification')
     .classList.remove('disabled');
+  loadSpinner.classList.add('is-hidden__spinner');
 }
 
 function clearNotFoundNotification() {
@@ -283,8 +288,15 @@ function createModalGenresString(genres) {
 
 function puginationNumeration(currentPage, totalpages) {
   paginationBtn[0].textContent = Number.parseInt(currentPage) - 4 > 0 ? 1 : '';
-  paginationBtn[1].textContent =
-    Number.parseInt(currentPage) - 4 > 0 ? '...' : '';
+
+  if (Number.parseInt(currentPage) - 3 === 1) {
+    paginationBtn[1].textContent = 1;
+  } else if (Number.parseInt(currentPage) - 3 > 0) {
+    paginationBtn[1].textContent = '...';
+  } else {
+    paginationBtn[1].textContent = '';
+  }
+  // paginationBtn[1].textContent = Number.parseInt(currentPage) - 3 > 0 ? Number.parseInt(currentPage) - 3 === 1 ? 1 : '...' : '';
   paginationBtn[2].textContent =
     Number.parseInt(currentPage) - 2 > 0
       ? Number.parseInt(currentPage) - 2
@@ -302,14 +314,31 @@ function puginationNumeration(currentPage, totalpages) {
     Number.parseInt(currentPage) + 2 <= Number.parseInt(totalpages)
       ? Number.parseInt(currentPage) + 2
       : '';
-  paginationBtn[7].textContent =
-    Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages)
-      ? '...'
-      : '';
+
+  if (Number.parseInt(currentPage) + 3 === Number.parseInt(totalpages)) {
+    paginationBtn[7].textContent = Number.parseInt(totalpages);
+  } else if (Number.parseInt(currentPage) + 3 <= Number.parseInt(totalpages)) {
+    paginationBtn[7].textContent = '...';
+  } else {
+    paginationBtn[7].textContent = '';
+  }
+  // paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages) ? '...' : '';
   paginationBtn[8].textContent =
     Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages)
       ? Number.parseInt(totalpages)
       : '';
+
+  if (!paginationBtn[5].textContent) {
+    arrowRightBtn.classList.add('disabled');
+  } else {
+    arrowRightBtn.classList.remove('disabled');
+  }
+
+  if (!paginationBtn[3].textContent) {
+    arrowLeftBtn.classList.add('disabled');
+  } else {
+    arrowLeftBtn.classList.remove('disabled');
+  }
 }
 
 function paginationPageChange() {
