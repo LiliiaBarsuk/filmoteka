@@ -1,35 +1,45 @@
 <header class="header header-home">
-    <div class="container header__container">        
-        <nav class="nav">
-            <a class="logo" href="./index.html">
-                <svg class="logo-icon" aria-label="header-logo" width="24" height="24">
-                    <use href="./images/icons.svg#icon-film"></use>
-                </svg>
-                <span class="logo-text">Filmoteka</span>
-            </a>
-            <ul class="nav__list">
-                <li class="nav__item active" >
-                    <a class="nav__link home" href="./index.html">
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li class="nav__item">
-                    <a class="nav__link library" href="./librarypage.html">
-                        <span>My library</span>
-                    </a>
-                </li>                
-            </ul>
-        </nav>
-        <div class="header__input-thumb">
-            <input class="header__input" type="text" name="search" placeholder="Movie search">
-            <button class="search-btn" type="button">
-                <svg class="serch-icon" aria-label="input-icon" width="12" height="12">
-                    <use href="./images/icons.svg#icon-search"></use>
-                </svg>
-            </button>
-            <p class="not-found-notification disabled">
-                Search result is not successful. Enter the correct movie name
-            </p>    
-        </div>        
+  <div class="container header__container">
+    <nav class="nav">
+      <a class="logo" href="./index.html">
+        <svg class="logo-icon" aria-label="header-logo" width="24" height="24">
+          <use href="./images/icons.svg#icon-film"></use>
+        </svg>
+        <span class="logo-text">Filmoteka</span>
+      </a>
+      <ul class="nav__list">
+        <li class="nav__item active">
+          <a class="nav__link home" href="./index.html">
+            <span>Home</span>
+          </a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link library" href="./librarypage.html">
+            <span>My library</span>
+          </a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link authorization" href="#">
+            <span>///Sign in</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="header__input-thumb">
+      <input
+        class="header__input"
+        type="text"
+        name="search"
+        placeholder="Movie search"
+      />
+      <button class="search-btn" type="button">
+        <svg class="serch-icon" aria-label="input-icon" width="12" height="12">
+          <use href="./images/icons.svg#icon-search"></use>
+        </svg>
+      </button>
+      <p class="not-found-notification disabled">
+        Search result is not successful. Enter the correct movie name
+      </p>
     </div>
+  </div>
 </header>
