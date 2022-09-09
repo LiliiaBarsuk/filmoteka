@@ -1,0 +1,83 @@
+.header-lib {
+    background-color: #000000;
+    background-image: url(../images/lib/mob-lib-x1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+@media screen and (min-device-pixel-ratio: 2),
+(min-resolution: 192dpi),
+(min-resolution: 2dppx) {
+    .header-lib {
+        background-image: url(../images/lib/mob-lib-x2.jpg);
+    }
+}
+
+@media screen and(min-width: 481px) {
+    .header-lib {
+        background-image: url(../images/lib/tab-lib-x1.jpg);
+    }
+
+    @media screen and (min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi),
+    (min-resolution: 2dppx) {
+        .header-lib {
+            background-image: url(../images/lib/tab-lib-x2.jpg);
+        }
+    }
+}
+
+@media screen and(min-width: 769px) {
+    .header-lib {
+        background-image: url(../images/lib/desk-lib-x1.jpg);
+    }
+
+    @media screen and (min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi),
+    (min-resolution: 2dppx) {
+        .header-lib {
+            background-image: url(../images/lib/desk-lib-x2.jpg);
+        }
+    }
+}
+
+.library-btns {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.watched-btn,
+.queue-btn {
+    @extend %button;
+    width: 130px;
+}
+
+.active-btn {
+    border: none;
+    background-color: #FF6B01;
+    filter: drop-shadow(0px 8px 43px rgba(255, 107, 1, 0.6));
+}
+
+@media screen and (min-width: 768px) {
+    .library-btns {
+        gap: 32px;
+    }
+
+    .watched-btn,
+    .queue-btn {
+        width: 152px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .library-btns {
+        gap: 16px;
+    }
+
+    .watched-btn,
+    .queue-btn {
+        width: 148px;
+    }
+}
