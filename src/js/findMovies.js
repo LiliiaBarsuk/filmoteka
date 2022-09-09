@@ -16,8 +16,9 @@ const mainPaginationBtn = document.querySelector('.pagination-btn__main');
 const arrowLeftBtn = document.querySelector('.pagination-btn__arrow-left');
 const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
 const paginationNumbers = document.querySelector('.pagination-list');
+const loadSpinner = document.querySelector('.loading-container');
 
-
+loadSpinner.classList.add('is-hidden__spinner');
 showMovies(createCurrentUrl(pageNumber));
 
 
@@ -79,7 +80,8 @@ function loadMovies(e) {
 
     if (check) {
         pageNumber = 1;
-        searchingFlag = true;        
+        searchingFlag = true;  
+        loadSpinner.classList.remove('is-hidden__spinner');
         showMovies(createSearchingUrl(requestMovie, pageNumber));
     }    
 }
@@ -95,8 +97,10 @@ function showMovies(url) {
             if (movies.results.length !== 0) {
                 clearPage();                
                 totalpages = movies.total_pages;
-                puginationNumeration(pageNumber, totalpages);                
-                movieListEl.insertAdjacentHTML('beforeend', createMoviesList(movies));              
+                puginationNumeration(pageNumber, totalpages);      
+                loadSpinner.classList.add('is-hidden__spinner');
+                movieListEl.insertAdjacentHTML('beforeend', createMoviesList(movies));
+                
             }
             
                                 
@@ -164,6 +168,7 @@ function clearPage() {
 
 function showNotFoundNotification() {
     document.querySelector('.not-found-notification').classList.remove('disabled');
+    loadSpinner.classList.add('is-hidden__spinner');
 }
 
 function clearNotFoundNotification() {
