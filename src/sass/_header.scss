@@ -103,6 +103,7 @@
 .header__input-thumb {
     position: relative;
     width: 280px;
+    height: 62px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -151,8 +152,7 @@
 @media screen and (min-width: 768px) {
     .header {        
         padding-left: 32px;
-        padding-right: 32px;
-        padding-bottom: 80px;        
+        padding-right: 32px;                
     }
     .logo-text {
         display: block;
@@ -169,6 +169,7 @@
 
     .header__input-thumb {
         width: 336px;
+        height: 56px;
     }
 
     .header__input {

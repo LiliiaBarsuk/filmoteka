@@ -47,7 +47,7 @@ arrowRightBtn.addEventListener('click', () => {
     if (totalpages <= pageNumber) {
         return;        
     }
-    pageNumber += 1;
+    pageNumber = Number.parseInt(pageNumber) + 1;
     
     paginationPageChange();
 });
@@ -105,7 +105,7 @@ function showMovies(url) {
 }
 
 function serchingParametr(e) {
-    requestMovie = e.currentTarget.value;    
+    requestMovie = e.currentTarget.value;
 }
 
 function createMoviesList(movies) {    

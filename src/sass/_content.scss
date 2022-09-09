@@ -44,7 +44,7 @@
     margin: 0;
     font-weight: 500;
     font-size: 12px;
-    line-height: 1.17;
+    line-height: 1.33;
     text-transform: uppercase;    
 }
 
@@ -98,5 +98,11 @@
     .movie-img {
         height: 574px;
         margin-bottom: 12px;
+    }
+
+    .movie-title,
+    .movie-description {
+        font-size: 20px;
+        line-height: 1.2;
     }
 }
