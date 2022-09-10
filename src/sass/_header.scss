@@ -81,6 +81,20 @@
   }
 }
 
+.logout-btn {
+  margin-left: 40px;
+  padding: 8px 10px 5px 10px;
+
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: transparent;
+  text-transform: uppercase;
+  border: 1px solid #212121;
+  border-radius: 5px;
+
+}
+
 .nav__item::after {
   content: '';
   display: block;
