@@ -7,8 +7,14 @@
 
   refs.openModalBtn.addEventListener('click', toggleModal);
   refs.closeModalBtn.addEventListener('click', toggleModal);
+  refs.modal.addEventListener('click', onBackdropClick);
 
   function toggleModal() {
-    refs.modal.classList.toggle('is-hidden');
+    refs.modal.classList.toggle('is-hidden__developers');
+  }
+  function onBackdropClick(event) {
+    if (event.currentTarget === event.target) {
+      toggleModal();
+    }
   }
 })();
