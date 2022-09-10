@@ -1,188 +1,204 @@
 .header {
-    padding-top: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 44px;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 44px;
 
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.17;   
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.17;
 
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .header-home {
-    background-color: #000000;
-    background-image: url(../images/mobile-header-img-1x.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;    
+  background-color: #000000;
+  background-image: url(../images/mobile-header-img-1x.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 @media screen and (min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi),
-    (min-resolution: 2dppx) {
-        .header-home {
-            background-image: url(../images/mobile-header-img-2x.jpg);
-        }
+  (min-resolution: 192dpi),
+  (min-resolution: 2dppx) {
+  .header-home {
+    background-image: url(../images/mobile-header-img-2x.jpg);
+  }
 }
 
 @media screen and(min-width: 768px) {
-    .header-home {
-        background-image: url(../images/tablet-header-img-1x.jpg);
-    }
+  .header-home {
+    background-image: url(../images/tablet-header-img-1x.jpg);
+  }
 
-    @media screen and (min-device-pixel-ratio: 2),
+  @media screen and (min-device-pixel-ratio: 2),
     (min-resolution: 192dpi),
     (min-resolution: 2dppx) {
-        .header-home {
-            background-image: url(../images/tablet-header-img-2x.jpg);
-        }
+    .header-home {
+      background-image: url(../images/tablet-header-img-2x.jpg);
     }
+  }
 }
 
 @media screen and(min-width: 1280px) {
-    .header-home {
-        background-image: url(../images/desktop-header-img-1x.jpg);
-    }
+  .header-home {
+    background-image: url(../images/desktop-header-img-1x.jpg);
+  }
 
-    @media screen and (min-device-pixel-ratio: 2),
+  @media screen and (min-device-pixel-ratio: 2),
     (min-resolution: 192dpi),
     (min-resolution: 2dppx) {
-        .header-home {
-            background-image: url(../images/desktop-header-img-2x.jpg);
-        }
+    .header-home {
+      background-image: url(../images/desktop-header-img-2x.jpg);
     }
+  }
 }
 
 .nav {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 54px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 54px;
 }
 
 .logo {
-    display: flex;    
-    align-items: center;    
-    // margin-right: 112px;
+  display: flex;
+  align-items: center;
+  // margin-right: 112px;
 }
 
 .logo-text {
-    display: none;
+  display: none;
 }
 
 .nav__list {
-    display: flex;
-    align-items: center;    
+  display: flex;
+  align-items: center;
 }
-.nav__item {    
-    &:first-child {
-        margin-right: 40px;
-    }
+.nav__item {
+  &:first-child {
+    margin-right: 40px;
+  }
 }
 
 .nav__item::after {
-    content: '';    
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #FF001B;
-    opacity: 0;
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #ff001b;
+  opacity: 0;
 }
 
 .active::after {
-    opacity: 1;
+  opacity: 1;
 }
 
 .nav__link {
-    text-transform: uppercase;
-    color: inherit;
-    
+  text-transform: uppercase;
+  color: inherit;
 }
 
 .header__input-thumb {
-    position: relative;
+  position: relative;
+  width: 280px;
+  height: 62px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header__form {
+  display: flex;
+  width: 394px;
+  @media screen and (max-width: 1280px) and (min-width: 768px) {
+    width: 336px;
+  }
+  @media screen and (max-width: 768px) {
     width: 280px;
-    height: 62px;
-    margin-left: auto;
-    margin-right: auto;
+  }
 }
 
 .header__input {
-    width: 100%;
-    height: 20px;
-    margin-bottom: 16px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid #ffffff;
-    color: #ffffff;
+  width: 100%;
+  height: 20px;
+  margin-bottom: 16px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 0.5px solid #ffffff;
+  color: #ffffff;
+  &:focus {
+    outline: none;
+  }
 }
 
 ::placeholder {
-    font-size: 14px;
-    line-height: 1.14;
-    color: #ffffff;
+  font-size: 14px;
+  line-height: 1.14;
+  color: #ffffff;
 }
 
 .search-btn {
-    position: absolute;
-    top: 2px;
-    right: 0;
-    width: 12px;
-    height: 12px;
-
-    margin: 0;
-    padding: 0;
-    border: none;
-
-    background-color: transparent;    
-    cursor: pointer;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  stroke: #fff;
+  padding: 4px;
+  border-bottom: 0.5px solid #ffffff;
+  //   padding-bottom: 15px;
+  padding: 2px 0 6px 0;
+  transition: 0.3s;
+  &:hover,
+  &:focus {
+    stroke: rgba(255, 255, 255, 0.4);
+  }
 }
 
 .not-found-notification {
-    margin: 0;
-
-    font-size: 14px;
-    line-height: 1.14;    
-
-    color: #FF001B;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.14;
+  color: #ff001b;
 }
 
 @media screen and (min-width: 768px) {
-    .header {        
-        padding-left: 32px;
-        padding-right: 32px;                
-    }
-    .logo-text {
-        display: block;
-        margin-left: 8px;
-        font-size: 30px;
-        line-height: 1.17;
+  .header {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .logo-text {
+    display: block;
+    margin-left: 8px;
+    font-size: 30px;
+    line-height: 1.17;
 
-        color: #FFFFFF;
-    }
+    color: #ffffff;
+  }
 
-    .nav {
-        margin-bottom: 40px;
-    }
+  .nav {
+    margin-bottom: 40px;
+  }
 
-    .header__input-thumb {
-        width: 336px;
-        height: 56px;
-    }
+  .header__input-thumb {
+    width: 336px;
+    height: 56px;
+  }
 
-    .header__input {
-        margin-bottom: 16px;
-    }   
+  .header__input {
+    margin-bottom: 16px;
+  }
 }
 
 @media screen and (min-width: 1280px) {
-    .header__input-thumb {
-        width: 394px;        
-    }
+  .header__input-thumb {
+    width: 394px;
+  }
 }
 
 .disabled {
-    display: none;
+  display: none;
 }

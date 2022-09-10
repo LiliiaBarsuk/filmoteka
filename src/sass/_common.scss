@@ -8,6 +8,10 @@ body {
   justify-content: space-between;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 a {
   text-decoration: none;
 }
