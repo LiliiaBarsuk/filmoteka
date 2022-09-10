@@ -23,7 +23,7 @@ formEl.addEventListener('submit', e => {
   e.preventDefault();
 });
 
-const loadSpinner = document.querySelector('.loading-container');
+const loadSpinner = document.querySelector('.loader');
 
 loadSpinner.classList.add('is-hidden__spinner');
 
@@ -100,6 +100,7 @@ function showMovies(url) {
       );
 
       if (movies.results.length !== 0) {
+        loadSpinner.classList.add('is-hidden__spinner');
         pagination.classList.remove(`is-hidden`);
         clearPage();
         totalPages = movies.total_pages;
