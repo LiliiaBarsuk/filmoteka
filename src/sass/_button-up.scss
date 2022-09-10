@@ -10,9 +10,16 @@
   right: 40px;
   bottom: 40px;
   transition: 0.3s;
+  background-color: #f7f7f7;
+  box-shadow: -1px 35px 40px -18px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: -1px 35px 40px -18px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -1px 35px 40px -18px rgba(0, 0, 0, 0.3);
   &:hover,
   &:focus {
-    background-color: #f7f7f7;
+    // background-color: #f7f7f7;
+    box-shadow: -1px 20px 30px -18px rgba(0, 0, 0, 1);
+    -webkit-box-shadow: -1px 20px 30px -18px rgba(0, 0, 0, 1);
+    -moz-box-shadow: -1px 20px 30px -18px rgba(0, 0, 0, 1);
   }
 }
 .button-up__icon {
