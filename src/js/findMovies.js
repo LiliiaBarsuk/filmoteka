@@ -144,7 +144,7 @@ function checkPosition() {
 
 window.addEventListener('scroll', checkPosition);
 
-function createImg(poster_path) {
+export function createImg(poster_path) {
   let noposter = new Image();
   noposter.src = require('../images/noposter.jpg');
   let posterPath = `https://image.tmdb.org/t/p/w300${poster_path}`;
@@ -247,65 +247,65 @@ function checkforNotFoundNotification(flag) {
 //   document.querySelector('body').classList.remove('overflow-hidden');
 // }
 
-export function createModalCard(movie) {
-  return `<img class="modal__img" src="${createImg(
-    movie.poster_path
-  )}" alt="" width="240">
-                <div class="modal__description-thumb">
-                    <h2 class="modal__title">${movie.title}</h2>
-                    <ul class="movie-data">
-                        <li>
-                            <ul class="movie-data__name">
-                                <li>Vote / Votes</li>
-                                <li>Popularity</li>
-                                <li>Original Title</li>
-                                <li>Genre</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul class="movie-data__content">
-                                <li class="movie-data__item">
-                                    <span class="movie-votes__first">${
-                                      movie.vote_average
-                                    }</span> / <span class="movie-votes__sec">${
-    movie.vote_count
-  }</span>
-                                </li>
-                                <li class="movie-data__item">
-                                    <span class="movie-popularity__item">${
-                                      movie.popularity
-                                    }</span>
-                                </li>
-                                <li class="movie-data__item">
-                                    <span class="movie-orig-title__item">${
-                                      movie.original_title
-                                    }</span>
-                                </li>
-                                <li class="movie-data__item">
-                                    <span class="movie-genre__item">${createModalGenresString(
-                                      movie.genres
-                                    )}</span>
-                                </li>
-                            </ul>
-                        </li>  
-                    </ul>
+// export function createModalCard(movie) {
+//   return `<img class="modal__img" src="${createImg(
+//     movie.poster_path
+//   )}" alt="" width="240">
+//                 <div class="modal__description-thumb">
+//                     <h2 class="modal__title">${movie.title}</h2>
+//                     <ul class="movie-data">
+//                         <li>
+//                             <ul class="movie-data__name">
+//                                 <li>Vote / Votes</li>
+//                                 <li>Popularity</li>
+//                                 <li>Original Title</li>
+//                                 <li>Genre</li>
+//                             </ul>
+//                         </li>
+//                         <li>
+//                             <ul class="movie-data__content">
+//                                 <li class="movie-data__item">
+//                                     <span class="movie-votes__first">${
+//                                       movie.vote_average
+//                                     }</span> / <span class="movie-votes__sec">${
+//     movie.vote_count
+//   }</span>
+//                                 </li>
+//                                 <li class="movie-data__item">
+//                                     <span class="movie-popularity__item">${
+//                                       movie.popularity
+//                                     }</span>
+//                                 </li>
+//                                 <li class="movie-data__item">
+//                                     <span class="movie-orig-title__item">${
+//                                       movie.original_title
+//                                     }</span>
+//                                 </li>
+//                                 <li class="movie-data__item">
+//                                     <span class="movie-genre__item">${createModalGenresString(
+//                                       movie.genres
+//                                     )}</span>
+//                                 </li>
+//                             </ul>
+//                         </li>  
+//                     </ul>
                     
-                    <p class="movie-about">About</p>
-                    <p class="movie-about-text">${movie.overview}</p>
-                    <ul class="modal-btns">
-                        <li class="modal-btns__item">
-                            <button class="button add-watched-btn" type="button">Add to Watched</button>
-                        </li>
-                        <li class="modal-btns__item">
-                            <button class="button add-queue-btn" type="button">Add to queue</button>
-                        </li>
-                    </ul>
-                </div>`;
-}
+//                     <p class="movie-about">About</p>
+//                     <p class="movie-about-text">${movie.overview}</p>
+//                     <ul class="modal-btns">
+//                         <li class="modal-btns__item">
+//                             <button class="button add-watched-btn" type="button">Add to Watched</button>
+//                         </li>
+//                         <li class="modal-btns__item">
+//                             <button class="button add-queue-btn" type="button">Add to queue</button>
+//                         </li>
+//                     </ul>
+//                 </div>`;
+// }
 
-function createModalGenresString(genres) {
-  return genres.map(genre => genre.name).join(', ');
-}
+// function createModalGenresString(genres) {
+//   return genres.map(genre => genre.name).join(', ');
+// }
 
 function puginationNumeration(currentPage, totalPages) {
   paginationBtn[0].textContent = Number.parseInt(currentPage) - 4 > 0 ? 1 : '';
