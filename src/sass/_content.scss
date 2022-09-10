@@ -1,108 +1,111 @@
 .section {
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 40px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 40px;
 }
 
 .container-main {
-    margin-left: auto;
-    margin-right: auto;
-    @media screen and (min-width: 320px) and (max-width: 767px) {
-        width: 280px;
-    }
+  margin-left: auto;
+  margin-right: auto;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: 280px;
+  }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
-        width: 704px;       
-    }
+  @media screen and (min-width: 768px) and (max-width: 1279px) {
+    width: 704px;
+  }
 
-    @media screen and (min-width: 1280px) {
-        width: 1216px;
-    }
+  @media screen and (min-width: 1280px) {
+    width: 1216px;
+  }
 }
 
-.movie-list {   
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+.info {
+  text-align: center;
+}
+
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .movie-item {
-    width: 280px;
-    height: 440px;    
+  width: 280px;
+  height: 440px;
 }
 
 .movie-img {
-    display: block;
-    width: 100%;
-    height: 398px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+  display: block;
+  width: 100%;
+  height: 398px;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .movie-title {
-    margin: 0;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.33;
-    text-transform: uppercase;    
+  margin: 0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  text-transform: uppercase;
 }
 
 .movie-description {
-    margin: 0;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.33;  
+  margin: 0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
 
-
-    color: #FF6B08;
+  color: #ff6b08;
 }
 
 @media screen and (min-width: 768px) {
-    .section {
-        padding-top: 60px;
-        padding-left: 32px;
-        padding-right: 32px;
-        padding-bottom: 60px;
-    }
+  .section {
+    padding-top: 60px;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 60px;
+  }
 
-    .movie-list {        
-        gap: 32px;
-    }
+  .movie-list {
+    gap: 32px;
+  }
 
-    .movie-img {
-        height: 455px;        
-        margin-bottom: 8px;
-    }
+  .movie-img {
+    height: 455px;
+    margin-bottom: 8px;
+  }
 
-    .movie-item {
-        width: calc((100% - 32px) / 2);
-        height: 494px;            
-    }
+  .movie-item {
+    width: calc((100% - 32px) / 2);
+    height: 494px;
+  }
 
-    .movie-title {        
-        line-height: 1.33;
-    }
+  .movie-title {
+    line-height: 1.33;
+  }
 }
 
 @media screen and (min-width: 1280px) {
-    .movie-list {        
-        gap: 32px 16px;
-    }
+  .movie-list {
+    gap: 32px 16px;
+  }
 
-    .movie-item {
-        width: calc((100% - 32px) / 3);
-        height: 634px;
-    }
+  .movie-item {
+    width: calc((100% - 32px) / 3);
+    height: 634px;
+  }
 
-    .movie-img {
-        height: 574px;
-        margin-bottom: 12px;
-    }
+  .movie-img {
+    height: 574px;
+    margin-bottom: 12px;
+  }
 
-    .movie-title,
-    .movie-description {
-        font-size: 20px;
-        line-height: 1.2;
-    }
+  .movie-title,
+  .movie-description {
+    font-size: 20px;
+    line-height: 1.2;
+  }
 }
