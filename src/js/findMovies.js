@@ -130,11 +130,20 @@ function createMoviesList(movies) {
     .join('');
 }
 
+// testOne();
+// function testOne() {
+//   let noposter = new Image();
+//   noposter.src = require('../images/noposter.jpg');
+//   const a = `<img class="movie-img" src="${noposter.src}" width="280" height="280">`;
+//   document.querySelector('body').innerHTML = a;
+// }
+
 function createImg(poster_path) {
+  let noposter = new Image();
+  noposter.src = require('../images/noposter.jpg');
   let posterPath = `https://image.tmdb.org/t/p/w300${poster_path}`;
   if (poster_path === null) {
-    posterPath =
-      'https://www.prokerala.com/movies/assets/img/no-poster-available.jpg';
+    posterPath = noposter.src;
   }
   return posterPath;
 }
