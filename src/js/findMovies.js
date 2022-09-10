@@ -18,14 +18,11 @@ const arrowLeftBtn = document.querySelector('.pagination-btn__arrow-left');
 const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
 const paginationNumbers = document.querySelector('.pagination-list');
 const pagination = document.querySelector('.pagination');
+const loadSpinner = document.querySelector('.loader');
 
 formEl.addEventListener('submit', e => {
   e.preventDefault();
 });
-
-const loadSpinner = document.querySelector('.loader');
-
-loadSpinner.classList.add('is-hidden__spinner');
 
 showMovies(createCurrentUrl(pageNumber));
 
