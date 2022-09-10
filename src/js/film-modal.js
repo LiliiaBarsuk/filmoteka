@@ -1,9 +1,13 @@
-import { API_KEY, API_URL, createModalCard } from './findMovies';
+import { API_KEY, API_URL, createImg } from './findMovies';
 
 let addToLibrBtn;
 let addToQueueBtn;
 
 const buttonUpEl = document.querySelector('.button-up');
+const watchedMoviesStorageName = "watchedMoviesStorage";
+const watchedMoviesButtonName = '.add-watched-btn';
+const queueMoviesStorageName = "queueMoviesStorage";
+const queueMoviesButtonName = '.add-queue-btn';
 
 export async function showModal(e) {
   console.log(e);
@@ -23,6 +27,9 @@ export async function showModal(e) {
         .querySelector('.modal-thumb')
         .insertAdjacentHTML('beforeend', createModalCard(movie));
       document.querySelector('body').classList.add('overflow-hidden');
+
+      writeToStorage(movie, watchedMoviesStorageName, watchedMoviesButtonName);
+      writeToStorage(movie, queueMoviesStorageName, queueMoviesButtonName);
     })
     .catch(error => console.log(error));
 
@@ -39,4 +46,92 @@ export function closeModal() {
   buttonUpEl.classList.remove('is-hidden');
   // document.querySelector('.movie-list').removeEventListener('click', showModal);
   // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
+}
+
+export function createModalCard(movie) {
+  return `<img class="modal__img" src="${createImg(
+    movie.poster_path
+  )}" alt="" width="240">
+                <div class="modal__description-thumb">
+                    <h2 class="modal__title">${movie.title}</h2>
+                    <ul class="movie-data">
+                        <li>
+                            <ul class="movie-data__name">
+                                <li>Vote / Votes</li>
+                                <li>Popularity</li>
+                                <li>Original Title</li>
+                                <li>Genre</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="movie-data__content">
+                                <li class="movie-data__item">
+                                    <span class="movie-votes__first">${
+                                      movie.vote_average
+                                    }</span> / <span class="movie-votes__sec">${
+    movie.vote_count
+  }</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-popularity__item">${
+                                      movie.popularity
+                                    }</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-orig-title__item">${
+                                      movie.original_title
+                                    }</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-genre__item">${createModalGenresString(
+                                      movie.genres
+                                    )}</span>
+                                </li>
+                            </ul>
+                        </li>  
+                    </ul>
+                    
+                    <p class="movie-about">About</p>
+                    <p class="movie-about-text">${movie.overview}</p>
+                    <ul class="modal-btns">
+                        <li class="modal-btns__item">
+                            <button class="button add-watched-btn" type="button">Add to Watched</button>
+                        </li>
+                        <li class="modal-btns__item">
+                            <button class="button add-queue-btn" type="button">Add to queue</button>
+                        </li>
+                    </ul>
+                </div>`;
+}
+
+function createModalGenresString(genres) {
+  return genres.map(genre => genre.name).join(', ');
+}
+
+function writeToStorage(movie, storageName, buttonName) {
+  document.querySelector(buttonName).addEventListener('click', e => {        
+        const movieItem = {
+          id: movie.id,
+          title: movie.title,
+          img: createImg(movie.poster_path),
+          vote_average: movie.vote_average,
+          vote_count: movie.vote_count,
+          popularity: movie.popularity,
+          original_title: movie.original_title,
+          genres: createModalGenresString(movie.genres),
+          overview: movie.overview,
+        }
+        if (localStorage.getItem(storageName)) {
+          const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));
+          for (let i = 0; i < savedwatchedMovies.length; i += 1) {
+            if (savedwatchedMovies[i].id === movieItem.id)
+              return;
+            }
+          savedwatchedMovies.push(movieItem);
+          localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+        } else {
+          const savedwatchedMovies = [movieItem];
+          localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+        }        
+      });
 }
