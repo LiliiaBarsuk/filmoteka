@@ -1,7 +1,8 @@
 import { genres } from '../genres.json';
+import { showModal, closeModal } from './film-modal';
 
-const API_URL = 'https://api.themoviedb.org/3/';
-const API_KEY = 'afc22cf5c573169849cabd6217d3b7d3';
+export const API_URL = 'https://api.themoviedb.org/3/';
+export const API_KEY = 'afc22cf5c573169849cabd6217d3b7d3';
 let requestMovie = '';
 let pageNumber = 1;
 let totalPages = 1;
@@ -219,34 +220,35 @@ function checkforNotFoundNotification(flag) {
     .classList.contains('disabled');
 }
 
-function showModal(e) {
-  if (e.target.nodeName !== 'IMG') {
-    return;
-  }
+// moved to film-showModal.js
+// function showModal(e) {
+//   if (e.target.nodeName !== 'IMG') {
+//     return;
+//   }
 
-  document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
+//   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
 
-  let url = `${API_URL}movie/${e.target.dataset.id}?api_key=${API_KEY}`;
+//   let url = `${API_URL}movie/${e.target.dataset.id}?api_key=${API_KEY}`;
 
-  fetch(url)
-    .then(response => response.json())
-    .then(movie => {
-      console.log(movie);
-      document
-        .querySelector('.modal-thumb')
-        .insertAdjacentHTML('beforeend', createModalCard(movie));
-      document.querySelector('body').classList.add('overflow-hidden');
-    })
-    .catch(error => console.log(error));
-}
+//   fetch(url)
+//     .then(response => response.json())
+//     .then(movie => {
+//       console.log(movie);
+//       document
+//         .querySelector('.modal-thumb')
+//         .insertAdjacentHTML('beforeend', createModalCard(movie));
+//       document.querySelector('body').classList.add('overflow-hidden');
+//     })
+//     .catch(error => console.log(error));
+// }
+// moved to film-showModal.js
+// function closeModal() {
+//   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
+//   document.querySelector('.modal-thumb').innerHTML = '';
+//   document.querySelector('body').classList.remove('overflow-hidden');
+// }
 
-function closeModal() {
-  document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
-  document.querySelector('.modal-thumb').innerHTML = '';
-  document.querySelector('body').classList.remove('overflow-hidden');
-}
-
-function createModalCard(movie) {
+export function createModalCard(movie) {
   return `<img class="modal__img" src="${createImg(
     movie.poster_path
   )}" alt="" width="240">
