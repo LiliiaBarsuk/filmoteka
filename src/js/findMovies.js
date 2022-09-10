@@ -134,7 +134,6 @@ const buttonUpEl = document.querySelector('.button-up');
 
 function checkPosition() {
   let windowY = window.scrollY;
-  console.log(window.scrollY);
   if (windowY < scrollPos) {
     buttonUpEl.classList.add('is-hidden');
   } else {
