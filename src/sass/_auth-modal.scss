@@ -9,6 +9,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.5s ease 0s;
+    overflow-y: auto;
 }
 
 .auth-modal.open, .registr-modal.open {
@@ -32,7 +33,9 @@
 }
 .auth-modal__content, .registr-modal__content {
     position: relative;
-    background-color: #111010e5;
+    // background-color: #111010;
+    background: rgb(21, 17, 23);
+        background: linear-gradient(352deg, rgba(21, 17, 23, 1) 53%, rgba(253, 29, 29, 1) 100%);
     max-width: 800px;
     padding: 50px;
     border-radius: 5px;
@@ -42,6 +45,12 @@
     position: absolute;
     stroke: #ffffff;
     cursor: pointer;
+    transition: transform 300ms ease;
+    &:hover, &:focus {
+        stroke: #212121;
+        transform: rotate(90deg);
+        transition: transform 300ms ease;
+    }
 }
 
 .auth-modal__header, .registr-modal__header {
@@ -67,6 +76,8 @@
     height: auto;
     padding: 25px 15px 5px 15px;
     outline: none;
+    border: 1px solid #212121b2;
+    border-radius: 10px;
 }
 
 .auth-modal__label, .registr-modal__label {
@@ -74,7 +85,9 @@
     top: 7;
     left: 15;
 
+    font-family: inherit;
     font-size: 12px;
+    font-weight: 500;
 }
 
 .submit-btn {
@@ -83,7 +96,7 @@
     margin-right: auto;
     margin-top: 35px;
     margin-bottom: 20px;
-    border-radius: 4px;
+    border-radius: 10px;
     border: 1px solid transparent;
     padding: 10px 32px;
     
@@ -91,7 +104,7 @@
     transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
     
     font-family: inherit;
-    background-color: rgb(218, 40, 40);
+    background-color: #fd1d1d;
     color: #ffffff  ;
     font-weight: 500;
     font-size: 16px;
@@ -104,7 +117,7 @@
     &:hover,
     &:focus {
             transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-            background-color: rgb(206, 32, 32);
+            background-color: rgb(198, 19, 19);
     }
 }
 
