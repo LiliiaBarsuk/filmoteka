@@ -26,17 +26,24 @@
       </ul>
     </nav>
     <div class="header__input-thumb">
-      <input
-        class="header__input"
-        type="text"
-        name="search"
-        placeholder="Movie search"
-      />
-      <button class="search-btn" type="button">
-        <svg class="serch-icon" aria-label="input-icon" width="12" height="12">
-          <use href="./images/icons.svg#icon-search"></use>
-        </svg>
-      </button>
+      <form action="" class="header__form">
+        <input
+          class="header__input"
+          type="text"
+          name="search"
+          placeholder="Movie search"
+        />
+        <button class="search-btn" type="submit">
+          <svg
+            class="serch-icon"
+            aria-label="input-icon"
+            width="12"
+            height="12"
+          >
+            <use href="./images/icons.svg#icon-search"></use>
+          </svg>
+        </button>
+      </form>
       <p class="not-found-notification disabled">
         Search result is not successful. Enter the correct movie name
       </p>
