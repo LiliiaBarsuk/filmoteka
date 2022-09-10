@@ -37,6 +37,6 @@ export function closeModal() {
   document.querySelector('.modal-thumb').innerHTML = '';
   document.querySelector('body').classList.remove('overflow-hidden');
   buttonUpEl.classList.remove('is-hidden');
-  document.querySelector('.movie-list').removeEventListener('click', showModal);
+  // document.querySelector('.movie-list').removeEventListener('click', showModal);
   // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
 }
