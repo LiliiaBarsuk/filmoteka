@@ -128,13 +128,21 @@ function createMoviesList(movies) {
     .join('');
 }
 
-// testOne();
-// function testOne() {
-//   let noposter = new Image();
-//   noposter.src = require('../images/noposter.jpg');
-//   const a = `<img class="movie-img" src="${noposter.src}" width="280" height="280">`;
-//   document.querySelector('body').innerHTML = a;
-// }
+let scrollPos = 0;
+const buttonUpEl = document.querySelector('.button-up');
+
+function checkPosition() {
+  let windowY = window.scrollY;
+  console.log(window.scrollY);
+  if (windowY < scrollPos) {
+    buttonUpEl.classList.add('is-hidden');
+  } else {
+    buttonUpEl.classList.remove('is-hidden');
+  }
+  scrollPos = windowY;
+}
+
+window.addEventListener('scroll', checkPosition);
 
 function createImg(poster_path) {
   let noposter = new Image();
