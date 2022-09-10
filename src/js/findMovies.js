@@ -9,6 +9,7 @@ let searchingFlag = false;
 
 const inputEl = document.querySelector('.header__input');
 const searchButtonEl = document.querySelector('.search-btn');
+const formEl = document.querySelector('.header__form');
 const movieListEl = document.querySelector('.movie-list');
 const closeModalBtn = document.querySelector('.modal__button');
 const paginationBtn = document.querySelectorAll('.pagination-btn');
@@ -17,6 +18,10 @@ const arrowLeftBtn = document.querySelector('.pagination-btn__arrow-left');
 const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
 const paginationNumbers = document.querySelector('.pagination-list');
 const pagination = document.querySelector('.pagination');
+
+formEl.addEventListener('submit', e => {
+  e.preventDefault();
+});
 
 const loadSpinner = document.querySelector('.loading-container');
 
