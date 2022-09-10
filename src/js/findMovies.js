@@ -4,7 +4,7 @@ const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = 'afc22cf5c573169849cabd6217d3b7d3';
 let requestMovie = '';
 let pageNumber = 1;
-let totalpages = 1;
+let totalPages = 1;
 let searchingFlag = false;
 
 const inputEl = document.querySelector('.header__input');
@@ -47,7 +47,7 @@ arrowLeftBtn.addEventListener('click', () => {
   paginationPageChange();
 });
 arrowRightBtn.addEventListener('click', () => {
-  if (totalpages <= pageNumber) {
+  if (totalPages <= pageNumber) {
     return;
   }
   pageNumber = Number.parseInt(pageNumber) + 1;
@@ -97,8 +97,8 @@ function showMovies(url) {
       if (movies.results.length !== 0) {
         pagination.classList.remove(`is-hidden`);
         clearPage();
-        totalpages = movies.total_pages;
-        puginationNumeration(pageNumber, totalpages);
+        totalPages = movies.total_pages;
+        puginationNumeration(pageNumber, totalPages);
         movieListEl.insertAdjacentHTML('beforeend', createMoviesList(movies));
       }
     })
@@ -286,7 +286,7 @@ function createModalGenresString(genres) {
   return genres.map(genre => genre.name).join(', ');
 }
 
-function puginationNumeration(currentPage, totalpages) {
+function puginationNumeration(currentPage, totalPages) {
   paginationBtn[0].textContent = Number.parseInt(currentPage) - 4 > 0 ? 1 : '';
 
   if (Number.parseInt(currentPage) - 3 === 1) {
@@ -307,25 +307,25 @@ function puginationNumeration(currentPage, totalpages) {
       : '';
   mainPaginationBtn.textContent = Number.parseInt(currentPage);
   paginationBtn[5].textContent =
-    Number.parseInt(currentPage) + 1 <= Number.parseInt(totalpages)
+    Number.parseInt(currentPage) + 1 <= Number.parseInt(totalPages)
       ? Number.parseInt(currentPage) + 1
       : '';
   paginationBtn[6].textContent =
-    Number.parseInt(currentPage) + 2 <= Number.parseInt(totalpages)
+    Number.parseInt(currentPage) + 2 <= Number.parseInt(totalPages)
       ? Number.parseInt(currentPage) + 2
       : '';
 
-  if (Number.parseInt(currentPage) + 3 === Number.parseInt(totalpages)) {
-    paginationBtn[7].textContent = Number.parseInt(totalpages);
-  } else if (Number.parseInt(currentPage) + 3 <= Number.parseInt(totalpages)) {
+  if (Number.parseInt(currentPage) + 3 === Number.parseInt(totalPages)) {
+    paginationBtn[7].textContent = Number.parseInt(totalPages);
+  } else if (Number.parseInt(currentPage) + 3 <= Number.parseInt(totalPages)) {
     paginationBtn[7].textContent = '...';
   } else {
     paginationBtn[7].textContent = '';
   }
-  // paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages) ? '...' : '';
+  // paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages) ? '...' : '';
   paginationBtn[8].textContent =
-    Number.parseInt(currentPage) + 4 <= Number.parseInt(totalpages)
-      ? Number.parseInt(totalpages)
+    Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages)
+      ? Number.parseInt(totalPages)
       : '';
 
   if (!paginationBtn[5].textContent) {
