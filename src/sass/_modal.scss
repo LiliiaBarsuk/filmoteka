@@ -5,14 +5,11 @@
 
     width: 100%;
     height: 100%;
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 38px;
-
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
 
     opacity: 1;    
+    transition: all 0.8s ease 0s;
+    overflow-y: auto;
 }
 
 .drop-box--is-hidden {
@@ -21,11 +18,20 @@
     pointer-events: none;
 }
 
+.modal-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 38px;
+}
+
 .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
+    position: relative;
+     
 
     width: 280px;    
     padding-top: 48px;
@@ -41,13 +47,20 @@
 }
 
 .modal__button {
-    position: fixed;
+    position: absolute;
     top: 8px;
     right: 8px;
     padding: 0;
     border: none;
     background-color: transparent;
     stroke: #000000;
+    cursor: pointer;
+    transition: transform 300ms ease;
+    &:hover, &:focus {
+        stroke: #FF6B01;
+        transform: rotate(90deg);
+        transition: transform 300ms ease;
+    }
 }
 
 .modal__img {
@@ -59,7 +72,9 @@
 .modal__title {
     margin-bottom: 20px;
     font-size: 20px;
+    font-weight: 500;
     line-height: 1.15;
+    text-transform: uppercase;
 }
 
 .movie-data {
@@ -88,6 +103,10 @@
     text-align: center;
 }
 
+.movie-orig-title__item {
+    text-transform: uppercase;
+}
+
 .movie-votes__first,
 .movie-votes__sec {
     display: flex;
@@ -96,10 +115,14 @@
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 5px;    
+
+    font-weight: 500;
+    font-size: 12px;
 }
 
 .movie-votes__first {
     background-color: #FF6B01;
+    color: #ffffff;
 }
 
 .movie-votes__sec {

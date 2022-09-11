@@ -1,12 +1,12 @@
-import { API_KEY, API_URL, createImg } from './findMovies';
+import { API_KEY, API_URL, createImg, checkAndCreateDate, } from './findMovies';
 
 let addToLibrBtn;
 let addToQueueBtn;
 
 const buttonUpEl = document.querySelector('.button-up');
-const watchedMoviesStorageName = "watchedMoviesStorage";
+const watchedMoviesStorageName = 'watchedMoviesStorage';
 const watchedMoviesButtonName = '.add-watched-btn';
-const queueMoviesStorageName = "queueMoviesStorage";
+const queueMoviesStorageName = 'queueMoviesStorage';
 const queueMoviesButtonName = '.add-queue-btn';
 
 export async function showModal(e) {
@@ -28,6 +28,17 @@ export async function showModal(e) {
         .insertAdjacentHTML('beforeend', createModalCard(movie));
       document.querySelector('body').classList.add('overflow-hidden');
 
+      
+      
+
+      // document
+      //   .querySelector('.add-watched-btn')
+      //   .addEventListener('click', onClickWatchedBtn);
+      // document
+      //   .querySelector('.add-queue-btn')
+      //   .addEventListener('click', onClickWatchedBtn);
+      checkButton(movie, watchedMoviesStorageName, watchedMoviesButtonName);
+      checkButton(movie, queueMoviesStorageName, queueMoviesButtonName);
       writeToStorage(movie, watchedMoviesStorageName, watchedMoviesButtonName);
       writeToStorage(movie, queueMoviesStorageName, queueMoviesButtonName);
     })
@@ -109,29 +120,58 @@ function createModalGenresString(genres) {
 }
 
 function writeToStorage(movie, storageName, buttonName) {
-  document.querySelector(buttonName).addEventListener('click', e => {        
-        const movieItem = {
-          id: movie.id,
-          title: movie.title,
-          img: createImg(movie.poster_path),
-          vote_average: movie.vote_average,
-          vote_count: movie.vote_count,
-          popularity: movie.popularity,
-          original_title: movie.original_title,
-          genres: createModalGenresString(movie.genres),
-          overview: movie.overview,
+  document.querySelector(buttonName).addEventListener('click', e => {
+    const movieItem = {
+      id: movie.id,
+      title: movie.title,
+      img: createImg(movie.poster_path),
+      vote_average: movie.vote_average,
+      vote_count: movie.vote_count,
+      popularity: movie.popularity,
+      original_title: movie.original_title,
+      genres: createModalGenresString(movie.genres),
+      overview: movie.overview,
+      date: checkAndCreateDate(movie.release_date),
+    };
+    if (localStorage.getItem(storageName)) {
+      const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));
+      for (let i = 0; i < savedwatchedMovies.length; i += 1) {
+        if (savedwatchedMovies[i].id === movieItem.id) {
+          e.target.textContent = `Add to ${e.target.textContent.split(' ')[2]}`;
+          savedwatchedMovies.splice(i, 1);
+          localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+          return;
         }
-        if (localStorage.getItem(storageName)) {
-          const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));
-          for (let i = 0; i < savedwatchedMovies.length; i += 1) {
-            if (savedwatchedMovies[i].id === movieItem.id)
-              return;
-            }
-          savedwatchedMovies.push(movieItem);
-          localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
-        } else {
-          const savedwatchedMovies = [movieItem];
-          localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
-        }        
-      });
+      }
+
+      savedwatchedMovies.push(movieItem);
+      localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+      
+      e.target.textContent = `Delete from ${e.target.textContent.split(' ')[2]}`;
+    } else {
+      const savedwatchedMovies = [movieItem];
+      localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+    }
+  });
+}
+
+// function onClickWatchedBtn(e) {
+//   let textBtn = e.target.textContent;
+//   // console.log(e.target.textContent);
+//   if (textBtn === 'Add to Watched') {
+//     e.target.textContent = 'Delete from wathed';
+//   } else if (textBtn === 'Delete from wathed') {
+//     e.target.textContent = 'Add to Watched';
+//   }
+// }
+
+function checkButton(movie, storageName, buttonName) {
+  if (localStorage.getItem(storageName)) {
+    const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));
+    for (let i = 0; i < savedwatchedMovies.length; i += 1) {
+      if (savedwatchedMovies[i].id === movie.id) {          
+        document.querySelector(buttonName).textContent = `Delete from ${document.querySelector(buttonName).textContent.split(' ')[2]}`;          
+      }
+    }
+  }
 }
