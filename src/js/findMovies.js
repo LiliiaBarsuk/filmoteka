@@ -1,5 +1,6 @@
+
 import { genres } from '../genres.json';
-import { showModal, closeModal } from './film-modal';
+import { showModal, closeModal } from './fb-film-modal';
 
 export const API_URL = 'https://api.themoviedb.org/3/';
 export const API_KEY = 'afc22cf5c573169849cabd6217d3b7d3';
