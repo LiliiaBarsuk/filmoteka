@@ -136,6 +136,7 @@ function renderStartLibrary() {
 }
 
 function renderLibrary(e) {
+  pageNumber = 1;
   loadSpinner.classList.remove('is-hidden__spinner');
   if (e.target === watchedBtn) {
     loadSpinner.classList.add('is-hidden__spinner');
@@ -272,8 +273,8 @@ function createGenresString(genres) {
 }
 
 function checkWatched(collection) {
-  watchedBtn.classList.add('active-btn');
-  queueBtn.classList.remove('active-btn');
+  // watchedBtn.classList.add('active-btn');
+  // queueBtn.classList.remove('active-btn');
   movieListEl.innerHTML = '';
   if (collection.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
@@ -339,6 +340,53 @@ function puginationNumeration(currentPage, totalPages) {
 }
 
 function paginationPageChange() {
-  onAuthStateChanged();
+  if (watchedBtn.classList.contains('active-btn')) {
+    renderStartLibrary();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  renderQueueLibrary();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQueueLibrary() {
+  watchedBtn.classList.remove('active-btn');
+  queueBtn.classList.add('active-btn');
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      const uid = user.uid;
+      //   Отримуємо дані з БД
+      const userData = readTheDoc(uid)
+        .then(response => {
+          return response;
+        })
+        .then(data => {
+          let films = data.filmsQueue; // масив з фільмами
+
+          // -----------
+          totalPages = Math.ceil(films.length / 20);
+          if (totalPages === 1) {
+            checkWatched(films);
+            pageNumber = 1;
+            console.log(totalPages);
+            pagination.classList.remove(`is-stealth`);
+            puginationNumeration(pageNumber, totalPages);
+          } else {
+            let i = pageNumber * 20;
+            let j = i - 20;
+            console.log(i);
+            films = data.filmsQueue.slice(j, i);
+            checkWatched(films);
+            console.log(totalPages);
+            pagination.classList.remove(`is-stealth`);
+            puginationNumeration(pageNumber, totalPages);
+            return;
+          }
+        });
+    } else {
+      console.log('user is logout');
+    }
+  });
 }
