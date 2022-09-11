@@ -92,7 +92,11 @@
   text-transform: uppercase;
   border: 1px solid #212121;
   border-radius: 5px;
-
+  cursor: pointer;
+  transition: 0.3s;
+    &:hover, &:focus {
+      color:rgba(255, 255, 255, 0.4);
+    }
 }
 
 .nav__item::after {
@@ -111,6 +115,15 @@
 .nav__link {
   text-transform: uppercase;
   color: inherit;
+  
+}
+
+.home, .library, .sing-in {
+   color: inherit;
+  transition: 0.3s;
+    &:hover, &:focus {
+      color:rgba(255, 255, 255, 0.4);
+    }
 }
 
 .header__input-thumb {
@@ -191,6 +204,10 @@
     line-height: 1.17;
 
     color: #ffffff;
+    transition: 0.3s;
+    &:hover, &:focus {
+      color:rgba(255, 255, 255, 0.4);
+    }
   }
 
   .nav {
