@@ -59,6 +59,33 @@ loadSpinner.classList.add('is-hidden__spinner');
 
 queueBtn.addEventListener('click', renderLibrary);
 watchedBtn.addEventListener('click', renderLibrary);
+arrowLeftBtn.addEventListener('click', () => {
+  if (pageNumber <= 1) {
+    return;
+  }
+  pageNumber -= 1;
+
+  paginationPageChange();
+});
+arrowRightBtn.addEventListener('click', () => {
+  if (totalPages <= pageNumber) {
+    return;
+  }
+  pageNumber = Number.parseInt(pageNumber) + 1;
+
+  paginationPageChange();
+});
+paginationNumbers.addEventListener('click', e => {
+  if (e.target.nodeName !== 'BUTTON') {
+    return;
+  }
+
+  if (e.target.textContent && e.target.textContent !== '...') {
+    pageNumber = e.target.textContent;
+
+    paginationPageChange();
+  }
+});
 
 function renderStartLibrary() {
   watchedBtn.classList.add('active-btn');
@@ -312,10 +339,6 @@ function puginationNumeration(currentPage, totalPages) {
 }
 
 function paginationPageChange() {
-  if (!searchingFlag) {
-    showMovies(createCurrentUrl(pageNumber));
-  } else {
-    showMovies(createSearchingUrl(requestMovie, pageNumber));
-  }
+  onAuthStateChanged();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
