@@ -14,13 +14,13 @@ console.log(watchedBtn);
 checkWatched();
 queueBtn.addEventListener('click', checkQueue);
 watchedBtn.addEventListener('click', checkWatched);
- loadSpinner.classList.add('is-hidden__spinner');
+loadSpinner.classList.add('is-hidden__spinner');
 
 function checkQueue() {
   watchedBtn.classList.remove('active-btn');
   queueBtn.classList.add('active-btn');
   movieListEl.innerHTML = '';
-  if (localStorage.length === 0) {
+  if (localStorage.length === 0 || queueMovie.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
   } else {
     renderQueueMovie();
@@ -31,7 +31,7 @@ function checkWatched() {
   watchedBtn.classList.add('active-btn');
   queueBtn.classList.remove('active-btn');
   movieListEl.innerHTML = '';
-  if (localStorage.length === 0) {
+  if (localStorage.length === 0 || watchedMovie.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
   } else {
     renderWatchedMovie();
@@ -42,7 +42,7 @@ function renderWatchedMovie() {
   if (watchedMovie) {
     emptyInfo.classList.add(`is-stealth`);
     const markUpCards = watchedMovie
-      .map(({ img, id, title, genres, release_date }) => {
+      .map(({ img, id, title, genres, date }) => {
         return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
@@ -50,7 +50,7 @@ function renderWatchedMovie() {
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
                       genres
-                    )} | ${checkAndCreateDate(release_date)}</p>
+                    )} | ${date}</p>
                 </li>`;
       })
       .join('');
@@ -66,7 +66,7 @@ function renderQueueMovie() {
   if (queueMovie) {
     emptyInfo.classList.add(`is-stealth`);
     const markUpCards = queueMovie
-      .map(({ img, id, title, genres, release_date }) => {
+      .map(({ img, id, title, genres, date }) => {
         return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
@@ -74,7 +74,7 @@ function renderQueueMovie() {
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
                       genres
-                    )} | ${checkAndCreateDate(release_date)}</p>
+                    )} | ${date}</p>
                 </li>`;
       })
       .join('');
@@ -108,13 +108,4 @@ function createGenresString(genres) {
     }
   }
   return genres;
-}
-
-function checkAndCreateDate(release_date) {
-  let date = 'Unknown date';
-  if (release_date) {
-    date = release_date.slice(0, 4);
-  }
-
-  return date;
 }
