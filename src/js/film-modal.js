@@ -1,4 +1,4 @@
-import { API_KEY, API_URL, createImg } from './findMovies';
+import { API_KEY, API_URL, createImg, checkAndCreateDate, } from './findMovies';
 
 let addToLibrBtn;
 let addToQueueBtn;
@@ -28,12 +28,17 @@ export async function showModal(e) {
         .insertAdjacentHTML('beforeend', createModalCard(movie));
       document.querySelector('body').classList.add('overflow-hidden');
 
+      
+      
+
       // document
       //   .querySelector('.add-watched-btn')
       //   .addEventListener('click', onClickWatchedBtn);
       // document
       //   .querySelector('.add-queue-btn')
       //   .addEventListener('click', onClickWatchedBtn);
+      checkButton(movie, watchedMoviesStorageName, watchedMoviesButtonName);
+      checkButton(movie, queueMoviesStorageName, queueMoviesButtonName);
       writeToStorage(movie, watchedMoviesStorageName, watchedMoviesButtonName);
       writeToStorage(movie, queueMoviesStorageName, queueMoviesButtonName);
     })
@@ -126,14 +131,23 @@ function writeToStorage(movie, storageName, buttonName) {
       original_title: movie.original_title,
       genres: createModalGenresString(movie.genres),
       overview: movie.overview,
+      date: checkAndCreateDate(movie.release_date),
     };
     if (localStorage.getItem(storageName)) {
       const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));
       for (let i = 0; i < savedwatchedMovies.length; i += 1) {
-        if (savedwatchedMovies[i].id === movieItem.id) return;
+        if (savedwatchedMovies[i].id === movieItem.id) {
+          e.target.textContent = `Add to ${e.target.textContent.split(' ')[2]}`;
+          savedwatchedMovies.splice(i, i + 1);
+          localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+          return;
+        }
       }
+
       savedwatchedMovies.push(movieItem);
       localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
+      
+      e.target.textContent = `Delete from ${e.target.textContent.split(' ')[2]}`;
     } else {
       const savedwatchedMovies = [movieItem];
       localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
@@ -150,3 +164,14 @@ function writeToStorage(movie, storageName, buttonName) {
 //     e.target.textContent = 'Add to Watched';
 //   }
 // }
+
+function checkButton(movie, storageName, buttonName) {
+  if (localStorage.getItem(storageName)) {
+    const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));
+    for (let i = 0; i < savedwatchedMovies.length; i += 1) {
+      if (savedwatchedMovies[i].id === movie.id) {          
+        document.querySelector(buttonName).textContent = `Delete from ${document.querySelector(buttonName).textContent.split(' ')[2]}`;          
+      }
+    }
+  }
+}
