@@ -99,7 +99,7 @@ function showMovies(url) {
 
       if (movies.results.length !== 0) {
         loadSpinner.classList.add('is-hidden__spinner');
-        pagination.classList.remove(`is-hidden`);
+        pagination.classList.remove(`is-stealth`);
         clearPage();
         totalPages = movies.total_pages;
         puginationNumeration(pageNumber, totalPages);
@@ -287,9 +287,9 @@ function checkforNotFoundNotification(flag) {
 //                                     )}</span>
 //                                 </li>
 //                             </ul>
-//                         </li>  
+//                         </li>
 //                     </ul>
-                    
+
 //                     <p class="movie-about">About</p>
 //                     <p class="movie-about-text">${movie.overview}</p>
 //                     <ul class="modal-btns">
