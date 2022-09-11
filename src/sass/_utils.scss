@@ -21,3 +21,20 @@
 //     visibility: hidden;
 //     pointer-events: none;
 // }
+
+//scrollBar
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #ececec;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3) inset;
+}
+::-webkit-scrollbar-thumb {
+  background: darkgrey;
+  border-radius: 10px;
+  border: 2px solid #ececec;
+  &:hover {
+    background: #7c7c7c;
+  }
+}
