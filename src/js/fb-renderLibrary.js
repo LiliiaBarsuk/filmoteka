@@ -31,8 +31,11 @@ const emptyInfo = document.querySelector('.info');
 const movieListEl = document.querySelector('.movie-list');
 const queueBtn = document.querySelector('.queue-btn');
 const watchedBtn = document.querySelector('.watched-btn');
+const loadSpinner = document.querySelector('.loader');
 
 renderStartLibrary()
+
+loadSpinner.classList.add('is-hidden__spinner');
 
 queueBtn.addEventListener('click', renderLibrary);
 watchedBtn.addEventListener('click', renderLibrary);
@@ -60,14 +63,16 @@ function renderStartLibrary() {
 };
 
 function renderLibrary(e) {
-
-    if (e.target === watchedBtn) {
+loadSpinner.classList.remove('is-hidden__spinner');
+  if (e.target === watchedBtn) {
+      loadSpinner.classList.add('is-hidden__spinner');
     watchedBtn.classList.add('active-btn');
     queueBtn.classList.remove('active-btn');
     }
     else if (e.target === queueBtn) {
     watchedBtn.classList.remove('active-btn');
     queueBtn.classList.add('active-btn');
+    loadSpinner.classList.add('is-hidden__spinner');
     }
    
     const arrayName = e.target.id;
