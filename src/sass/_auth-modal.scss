@@ -72,7 +72,7 @@
 
 .auth-modal__input, .registr-modal__input {
     font-size: 16px;
-    min-width: 100px;
+    width: 100%;
     height: auto;
     padding: 25px 15px 5px 15px;
     outline: none;
@@ -121,9 +121,11 @@
     }
 }
 
-.auth-modal_text {
+.auth-modal_text, .registr-modal_text {
     color: rgb(154, 159, 159);
+    max-width: 226px;
 }
-.registration {
+.registration, .authorization-link {
     color: #ffffff;
+
 }

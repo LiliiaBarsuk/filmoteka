@@ -6,6 +6,7 @@ const registrModal = document.querySelector('#registr-modal');
 const registrCloseBtn = document.querySelector('#registr-modal-btn');
 const authBackdrop = document.querySelector('.auth-modal__box');
 const registrBackdrop = document.querySelector('.registr-modal__box');
+const authModalLink = document.querySelector('.authorization-link');
 const body = document.querySelector('body');
 
 authLink.addEventListener('click', onClickAuthLink);
@@ -44,6 +45,13 @@ function onClickRegistrLink(e) {
   registrModal.classList.add('open');
   registrCloseBtn.addEventListener('click', onRegistrCloseBtn);
   registrBackdrop.addEventListener('click', onRegistrBackdropClick);
+  authModalLink.addEventListener('click', onClickAuthModalLink);
+}
+
+function onClickAuthModalLink(e) {
+  e.preventDefault();
+  registrModal.classList.remove('open');
+  authModal.classList.add('open');
 }
 
 function onRegistrCloseBtn() {
@@ -51,6 +59,7 @@ function onRegistrCloseBtn() {
   body.classList.remove('overflow-hidden');
   registrCloseBtn.removeEventListener('click', onRegistrCloseBtn);
   registrBackdrop.removeEventListener('click', onRegistrBackdropClick);
+  authModalLink.removeEventListener('click', onClickAuthModalLink);
 }
 
 function onRegistrBackdropClick(e) {
