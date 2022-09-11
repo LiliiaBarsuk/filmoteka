@@ -164,7 +164,7 @@ function writeToStorage(movie, storageName, buttonName) {
 //     e.target.textContent = 'Add to Watched';
 //   }
 // }
-// перевіряєстан кнопок і чи доданий фільм до бд
+
 function checkButton(movie, storageName, buttonName) {
   if (localStorage.getItem(storageName)) {
     const savedwatchedMovies = JSON.parse(localStorage.getItem(storageName));

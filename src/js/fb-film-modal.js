@@ -47,6 +47,7 @@ export async function showModal(e) {
 
         function addToLibrary(e) { // додає дані до firestore
             const arrayName = e.target.id; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали
+            // const textContent = e.target.textContent //доступ до текстового контенту на кнопці
         
             const movieItem = {
                 id: movie.id,
@@ -67,7 +68,15 @@ export async function showModal(e) {
                     const uid = user.uid; //id користувача
                     //   Оновлюємо дані 
                     updateDoc(doc(firestore, 'users', `${uid}`), {  //записуємо дані в firestore
-                        [arrayName]: arrayUnion(movieItem)  // додаємо об`єкт фільму до масиву
+
+                      // if(textContent === "Add to watched") {
+                      //    [arrayName]: arrayUnion(movieItem)  // додаємо об`єкт фільму до масиву
+                      // } else if (textContent === "Delete from watched") {
+                      //   [arrayName]: arrayRemove(movieItem)  // видаляємо об`єкт фільму з масиву
+                      // }
+
+                      [arrayName]: arrayUnion(movieItem)  // додаємо об`єкт фільму до масиву (це треба буде видалити, якщо буде умова з іф)
+                       
                     })
 
                 } else {
@@ -77,37 +86,7 @@ export async function showModal(e) {
         }
 
 
-        function deleteFromLibrary() { // додає дані до firestore
   
-
-  const movieItem = {
-      id: movie.id,
-      title: movie.title,
-      img: createImg(movie.poster_path),
-      vote_average: movie.vote_average,
-      vote_count: movie.vote_count,
-      popularity: movie.popularity,
-      original_title: movie.original_title,
-      genres: createModalGenresString(movie.genres),
-      overview: movie.overview,
-      date: checkAndCreateDate(movie.release_date),
-  }  
-  
-  onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
-    if (user) {
-        // User is signed in, see docs for a list of available properties
-        const uid = user.uid; //id користувача
-        //   Оновлюємо дані 
-        updateDoc(doc(firestore, 'users', `${uid}`), {  //оновлюємо дані в firestore
-            filmsWatched: arrayRemove(movieItem)  // видаляємо об`єкт фільму з масиву
-        })
-  
-    } else {
-        console.log('user is logout');
-        } 
-  })
-}
-
 
 // ----------------------------------------Видалення даних--------------------
          
@@ -143,7 +122,7 @@ export async function showModal(e) {
 // }
 
         addToLibrBtn.addEventListener('click', addToLibrary);
-        addToQueueBtn.addEventListener('click', deleteFromLibrary);
+        addToQueueBtn.addEventListener('click', addFromLibrary);
     
     }).catch(error => console.log(error));
 
