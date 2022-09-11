@@ -52,7 +52,7 @@
 .queue-btn {
     @extend %button;
     width: 130px;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .active-btn {
@@ -74,7 +74,9 @@
     border: none;
     background-color: #FF6B01;
     filter: drop-shadow(0px 8px 43px rgba(255, 107, 1, 0.6));
-    
+     box-shadow: -1px 20px 30px -18px rgba(0, 0, 0, 1);
+    -webkit-box-shadow: -1px 20px 30px -18px rgba(0, 0, 0, 1);
+    -moz-box-shadow: -1px 20px 30px -18px rgba(0, 0, 0, 1);
 }
 @media screen and (min-width: 768px) {
     .library-btns {
