@@ -8,10 +8,12 @@
   background-color: rgba(0, 0, 0, 0.2);
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
     visibility 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 25px;
 }
 
 .modal-developers {
   position: absolute;
+
   left: 50%;
   transform: translateX(-50%);
   background-color: #fafafa;

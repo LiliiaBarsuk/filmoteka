@@ -55,6 +55,7 @@
     margin-right: auto;
     &__item:hover {
       transform: scale(1.1);
+      transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     &__tittle {
       margin-top: 5px;
@@ -72,9 +73,6 @@
 
     column-gap: 30px;
     grid-auto-rows: min-content;
-    &__item:hover {
-      transform: scale(1.15);
-    }
     &__tittle {
       line-height: 1.33;
     }
