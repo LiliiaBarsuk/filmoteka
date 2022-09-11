@@ -57,7 +57,7 @@
     cursor: pointer;
     transition: transform 300ms ease;
     &:hover, &:focus {
-        stroke:  #FF6B01;
+        stroke: #FF6B01;
         transform: rotate(90deg);
         transition: transform 300ms ease;
     }
