@@ -17,4 +17,9 @@
       toggleModal();
     }
   }
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Escape') {
+      toggleModal();
+    }
+  });
 })();
