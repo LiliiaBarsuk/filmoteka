@@ -1,7 +1,7 @@
 import './modal-developers';
 
 let watchedMovie = JSON.parse(localStorage.getItem('watchedMoviesStorage'));
-// console.log(watchedMovie);
+console.log(watchedMovie);
 const emptyInfo = document.querySelector('.info');
 const movieListEl = document.querySelector('.movie-list');
 
@@ -17,10 +17,10 @@ function checkStorage() {
 
 function renderWatchedMovie() {
   const markUpCards = watchedMovie
-    .map(({ poster_path, id, title, genres, release_date }) => {
+    .map(({ img, id, title, genres, release_date }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
-                      poster_path
+                      img
                     )}" data-id="${id}" alt="${title}" width="280">
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
@@ -34,11 +34,11 @@ function renderWatchedMovie() {
   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
 }
 
-function createImg(poster_path) {
+function createImg(img) {
   let noposter = new Image();
   noposter.src = require('../images/noposter.jpg');
-  let posterPath = `https://image.tmdb.org/t/p/w300${poster_path}`;
-  if (poster_path === null) {
+  let posterPath = img;
+  if (img === null || img === '') {
     posterPath = noposter.src;
   }
   return posterPath;
