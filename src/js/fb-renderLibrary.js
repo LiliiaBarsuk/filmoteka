@@ -1,6 +1,6 @@
 import './modal-developers';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc, exists, onSnapshot, updateDoc, arrayUnion, collection, query, where, getDocs  } from 'firebase/firestore/lite';
+import { getFirestore, doc, setDoc, getDoc, exists, onSnapshot, updateDoc, arrayUnion, collection, query, where, getDocs, arrayRemove  } from 'firebase/firestore/lite';
 import { getAuth, 
     showLoginError, 
     onAuthStateChanged, 
@@ -32,25 +32,25 @@ const movieListEl = document.querySelector('.movie-list');
 const queueBtn = document.querySelector('.queue-btn');
 const watchedBtn = document.querySelector('.watched-btn');
 
-renderStartLibrary()
+renderStartLibrary() //рендер бібліотеки при переході з вкладки home (WatchedMovies)
 
 queueBtn.addEventListener('click', renderLibrary);
 watchedBtn.addEventListener('click', renderLibrary);
 
-function renderStartLibrary() {
+function renderStartLibrary() { //рендер бібліотеки при переході з вкладки home (WatchedMovies)
     watchedBtn.classList.add('active-btn');
     queueBtn.classList.remove('active-btn');
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => { //перевірка чи  user залогінений
         if (user) {
-        // User is signed in, see docs for a list of available properties
-        const uid = user.uid;
+        // User is signed in
+        const uid = user.uid; // id user
         //   Отримуємо дані з БД
-        const userData =  readTheDoc(uid).then(response => {
+        const userData =  readTheDoc(uid).then(response => { //отримуємо дані з firestore
            return response
-        }).then(data => {
-            const films = data.filmsWatched;
-            checkMovie(films)
+        }).then(data => { //data це весь об`єкт з даними (email, filmsWatched, filmsQueue, id)
+            const films = data.filmsWatched; //filmsWatched
+            checkMovie(films) //створення та рендер розмітки
         })
 
        } else {
@@ -70,20 +70,20 @@ function renderLibrary(e) {
     queueBtn.classList.add('active-btn');
     }
    
-    const arrayName = e.target.id;
+    const arrayName = e.target.id; //id кнопки на яку нажали, і назва масиву, з якого будуть братись дані 
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (user) => { //перевірка чи  user залогінений
         if (user) {
-        // User is signed in, see docs for a list of available properties
+        // User is signed in
         const uid = user.uid;
         //   Отримуємо дані з БД
-        const userData =  readTheDoc(uid).then(response => {
+        const userData =  readTheDoc(uid).then(response => { //отримуємо дані з firestore
            return response
-        }).then(data => {
-            const filmsCollection = data[arrayName];
+        }).then(data => { //data це весь об`єкт з даними (email, filmsWatched, filmsQueue, id)
+            const filmsCollection = data[arrayName];  //filmsWatched або filmsQueue
 
-            console.log(filmsCollection);
-            checkMovie(filmsCollection)
+            // console.log(filmsCollection);
+            checkMovie(filmsCollection) //створення та рендер розмітки
         })
 
        } else {
@@ -94,7 +94,7 @@ onAuthStateChanged(auth, (user) => {
 }
 async function readTheDoc (id) {
     const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
-        if (myDoc.exists()) {
+        if (myDoc.exists()) { //якщо док існує дістаємо з нього необхідні дані. функція повертає проміс!
             const data = myDoc.data();
             return data
         } 
@@ -115,7 +115,7 @@ function checkMovie(collection) {
 
 function renderMovie(collection) {
   const markUpCards = collection
-    .map(({ img, id, title, genres, release_date }) => {
+    .map(({ img, id, title, genres, date }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
@@ -123,7 +123,7 @@ function renderMovie(collection) {
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
                       genres
-                    )} | ${checkAndCreateDate(release_date)}</p>
+                    )} | ${date}</p>
                 </li>`;
     })
     .join('');
