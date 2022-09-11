@@ -122,7 +122,7 @@ export async function showModal(e) {
 // }
 
         addToLibrBtn.addEventListener('click', addToLibrary);
-        addToQueueBtn.addEventListener('click', addFromLibrary);
+        addToQueueBtn.addEventListener('click', addToLibrary);
     
     }).catch(error => console.log(error));
 
