@@ -45,7 +45,14 @@ const movieListEl = document.querySelector('.movie-list');
 const queueBtn = document.querySelector('.queue-btn');
 const watchedBtn = document.querySelector('.watched-btn');
 const loadSpinner = document.querySelector('.loader');
-
+const paginationBtn = document.querySelectorAll('.pagination-btn');
+const mainPaginationBtn = document.querySelector('.pagination-btn__main');
+const arrowLeftBtn = document.querySelector('.pagination-btn__arrow-left');
+const arrowRightBtn = document.querySelector('.pagination-btn__arrow-right');
+const paginationNumbers = document.querySelector('.pagination-list');
+const pagination = document.querySelector('.pagination');
+let pageNumber = 1;
+let totalPages = 1;
 renderStartLibrary();
 
 loadSpinner.classList.add('is-hidden__spinner');
@@ -67,8 +74,33 @@ function renderStartLibrary() {
           return response;
         })
         .then(data => {
-          const films = data.filmsWatched; // масив з фільмами
-          checkWatched(films);
+          let films = data.filmsWatched; // масив з фільмами
+
+          // -----------
+          totalPages = Math.ceil(films.length / 20);
+          if (totalPages === 1) {
+            checkWatched(films);
+            pageNumber = 1;
+            console.log(totalPages);
+            pagination.classList.remove(`is-stealth`);
+            puginationNumeration(pageNumber, totalPages);
+          } else {
+            let i = pageNumber * 20;
+            let j = i - 20;
+            console.log(i);
+            films = data.filmsWatched.slice(j, i);
+            checkWatched(films);
+            console.log(totalPages);
+            pagination.classList.remove(`is-stealth`);
+            puginationNumeration(pageNumber, totalPages);
+            return;
+          }
+          // ///////------
+          // checkWatched(films);
+          // totalPages = Math.ceil(films.length / 20);
+          // console.log(totalPages);
+          // pagination.classList.remove(`is-stealth`);
+          // puginationNumeration(pageNumber, totalPages);
         });
     } else {
       console.log('user is logout');
@@ -100,10 +132,27 @@ function renderLibrary(e) {
           return response;
         })
         .then(data => {
-          const filmsCollection = data[arrayName];
+          let filmsCollection = data[arrayName];
 
-          console.log(filmsCollection);
-          checkMovie(filmsCollection);
+          // console.log(filmsCollection);
+
+          totalPages = Math.ceil(filmsCollection.length / 20);
+          if (totalPages === 1) {
+            checkMovie(filmsCollection);
+            pageNumber = 1;
+            console.log(totalPages);
+            pagination.classList.remove(`is-stealth`);
+            puginationNumeration(pageNumber, totalPages);
+          } else {
+            let i = pageNumber * 20;
+            let j = i - 20;
+            console.log(i);
+            filmsCollection = data[arrayName].slice(j, i);
+            checkMovie(filmsCollection);
+            console.log(totalPages);
+            pagination.classList.remove(`is-stealth`);
+            puginationNumeration(pageNumber, totalPages);
+          }
         });
     } else {
       console.log('user is logout');
@@ -127,6 +176,8 @@ function checkMovie(collection) {
   } else {
     emptyInfo.classList.add(`is-stealth`);
     renderMovie(collection);
+    pagination.classList.remove(`is-stealth`);
+    puginationNumeration(pageNumber, totalPages);
   }
 }
 
@@ -203,4 +254,68 @@ function checkWatched(collection) {
     emptyInfo.classList.add(`is-stealth`);
     renderMovie(collection);
   }
+}
+
+function puginationNumeration(currentPage, totalPages) {
+  paginationBtn[0].textContent = Number.parseInt(currentPage) - 4 > 0 ? 1 : '';
+
+  if (Number.parseInt(currentPage) - 3 === 1) {
+    paginationBtn[1].textContent = 1;
+  } else if (Number.parseInt(currentPage) - 3 > 0) {
+    paginationBtn[1].textContent = '...';
+  } else {
+    paginationBtn[1].textContent = '';
+  }
+  // paginationBtn[1].textContent = Number.parseInt(currentPage) - 3 > 0 ? Number.parseInt(currentPage) - 3 === 1 ? 1 : '...' : '';
+  paginationBtn[2].textContent =
+    Number.parseInt(currentPage) - 2 > 0
+      ? Number.parseInt(currentPage) - 2
+      : '';
+  paginationBtn[3].textContent =
+    Number.parseInt(currentPage) - 1 > 0
+      ? Number.parseInt(currentPage) - 1
+      : '';
+  mainPaginationBtn.textContent = Number.parseInt(currentPage);
+  paginationBtn[5].textContent =
+    Number.parseInt(currentPage) + 1 <= Number.parseInt(totalPages)
+      ? Number.parseInt(currentPage) + 1
+      : '';
+  paginationBtn[6].textContent =
+    Number.parseInt(currentPage) + 2 <= Number.parseInt(totalPages)
+      ? Number.parseInt(currentPage) + 2
+      : '';
+
+  if (Number.parseInt(currentPage) + 3 === Number.parseInt(totalPages)) {
+    paginationBtn[7].textContent = Number.parseInt(totalPages);
+  } else if (Number.parseInt(currentPage) + 3 <= Number.parseInt(totalPages)) {
+    paginationBtn[7].textContent = '...';
+  } else {
+    paginationBtn[7].textContent = '';
+  }
+  // paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages) ? '...' : '';
+  paginationBtn[8].textContent =
+    Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages)
+      ? Number.parseInt(totalPages)
+      : '';
+
+  if (!paginationBtn[5].textContent) {
+    arrowRightBtn.classList.add('disabled');
+  } else {
+    arrowRightBtn.classList.remove('disabled');
+  }
+
+  if (!paginationBtn[3].textContent) {
+    arrowLeftBtn.classList.add('disabled');
+  } else {
+    arrowLeftBtn.classList.remove('disabled');
+  }
+}
+
+function paginationPageChange() {
+  if (!searchingFlag) {
+    showMovies(createCurrentUrl(pageNumber));
+  } else {
+    showMovies(createSearchingUrl(requestMovie, pageNumber));
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
