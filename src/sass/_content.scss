@@ -44,6 +44,11 @@
   height: 398px;
   margin-bottom: 10px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: transform 300ms ease;
+  &:hover, &:focus {
+transform: scale(1.03);
+  }
 }
 
 .movie-title {
