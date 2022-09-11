@@ -138,7 +138,7 @@ function writeToStorage(movie, storageName, buttonName) {
       for (let i = 0; i < savedwatchedMovies.length; i += 1) {
         if (savedwatchedMovies[i].id === movieItem.id) {
           e.target.textContent = `Add to ${e.target.textContent.split(' ')[2]}`;
-          savedwatchedMovies.splice(i, i + 1);
+          savedwatchedMovies.splice(i, 1);
           localStorage.setItem(storageName, JSON.stringify(savedwatchedMovies));
           return;
         }
