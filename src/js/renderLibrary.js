@@ -8,11 +8,13 @@ const emptyInfo = document.querySelector('.info');
 const movieListEl = document.querySelector('.movie-list');
 const queueBtn = document.querySelector('.queue-btn');
 const watchedBtn = document.querySelector('.watched-btn');
+const loadSpinner = document.querySelector('.loader');
 console.log(queueBtn);
 console.log(watchedBtn);
 checkWatched();
 queueBtn.addEventListener('click', checkQueue);
 watchedBtn.addEventListener('click', checkWatched);
+ loadSpinner.classList.add('is-hidden__spinner');
 
 function checkQueue() {
   watchedBtn.classList.remove('active-btn');
