@@ -1,13 +1,34 @@
 import './modal-developers';
 
 let watchedMovie = JSON.parse(localStorage.getItem('watchedMoviesStorage'));
-console.log(watchedMovie);
+// console.log(watchedMovie);
+let queueMovie = JSON.parse(localStorage.getItem('queueMoviesStorage'));
+// console.log(queueMovie);
 const emptyInfo = document.querySelector('.info');
 const movieListEl = document.querySelector('.movie-list');
+const queueBtn = document.querySelector('.queue-btn');
+const watchedBtn = document.querySelector('.watched-btn');
+console.log(queueBtn);
+console.log(watchedBtn);
+checkWatched();
+queueBtn.addEventListener('click', checkQueue);
+watchedBtn.addEventListener('click', checkWatched);
 
-checkStorage();
+function checkQueue() {
+  watchedBtn.classList.remove('active-btn');
+  queueBtn.classList.add('active-btn');
+  movieListEl.innerHTML = '';
+  if (queueMovie.length < 1) {
+    emptyInfo.classList.remove(`is-stealth`);
+  } else {
+    renderQueueMovie();
+  }
+}
 
-function checkStorage() {
+function checkWatched() {
+  watchedBtn.classList.add('active-btn');
+  queueBtn.classList.remove('active-btn');
+  movieListEl.innerHTML = '';
   if (watchedMovie.length < 1) {
     emptyInfo.classList.remove(`is-stealth`);
   } else {
@@ -17,6 +38,25 @@ function checkStorage() {
 
 function renderWatchedMovie() {
   const markUpCards = watchedMovie
+    .map(({ img, id, title, genres, release_date }) => {
+      return `<li class="movie-item">
+                    <img class="movie-img" src="${createImg(
+                      img
+                    )}" data-id="${id}" alt="${title}" width="280">
+                    <h2 class="movie-title">${title}</h2>
+                    <p class="movie-description">${createGenresString(
+                      genres
+                    )} | ${checkAndCreateDate(release_date)}</p>
+                </li>`;
+    })
+    .join('');
+
+  // console.log(markUpCards);
+  movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+}
+
+function renderQueueMovie() {
+  const markUpCards = queueMovie
     .map(({ img, id, title, genres, release_date }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
