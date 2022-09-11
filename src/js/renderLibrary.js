@@ -18,7 +18,7 @@ function checkQueue() {
   watchedBtn.classList.remove('active-btn');
   queueBtn.classList.add('active-btn');
   movieListEl.innerHTML = '';
-  if (queueMovie.length < 1) {
+  if (localStorage.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
   } else {
     renderQueueMovie();
@@ -29,7 +29,7 @@ function checkWatched() {
   watchedBtn.classList.add('active-btn');
   queueBtn.classList.remove('active-btn');
   movieListEl.innerHTML = '';
-  if (watchedMovie.length < 1) {
+  if (localStorage.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
   } else {
     renderWatchedMovie();
@@ -37,9 +37,11 @@ function checkWatched() {
 }
 
 function renderWatchedMovie() {
-  const markUpCards = watchedMovie
-    .map(({ img, id, title, genres, release_date }) => {
-      return `<li class="movie-item">
+  if (watchedMovie) {
+    emptyInfo.classList.add(`is-stealth`);
+    const markUpCards = watchedMovie
+      .map(({ img, id, title, genres, release_date }) => {
+        return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
                     )}" data-id="${id}" alt="${title}" width="280">
@@ -48,17 +50,22 @@ function renderWatchedMovie() {
                       genres
                     )} | ${checkAndCreateDate(release_date)}</p>
                 </li>`;
-    })
-    .join('');
+      })
+      .join('');
 
-  // console.log(markUpCards);
-  movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+    // console.log(markUpCards);
+    movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+    return;
+  }
+  emptyInfo.classList.remove(`is-stealth`);
 }
 
 function renderQueueMovie() {
-  const markUpCards = queueMovie
-    .map(({ img, id, title, genres, release_date }) => {
-      return `<li class="movie-item">
+  if (queueMovie) {
+    emptyInfo.classList.add(`is-stealth`);
+    const markUpCards = queueMovie
+      .map(({ img, id, title, genres, release_date }) => {
+        return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
                     )}" data-id="${id}" alt="${title}" width="280">
@@ -67,11 +74,13 @@ function renderQueueMovie() {
                       genres
                     )} | ${checkAndCreateDate(release_date)}</p>
                 </li>`;
-    })
-    .join('');
+      })
+      .join('');
 
-  // console.log(markUpCards);
-  movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+    movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+    return;
+  }
+  emptyInfo.classList.remove(`is-stealth`);
 }
 
 function createImg(img) {
