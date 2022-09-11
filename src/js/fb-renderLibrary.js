@@ -52,8 +52,9 @@ function renderStartLibrary() {
         const userData =  readTheDoc(uid).then(response => {
            return response
         }).then(data => {
-            const films = data.filmsWatched;
-            checkMovie(films)
+            const films = data.filmsWatched; // масив з фільмами
+            checkWatched(films);
+            
         })
 
        } else {
@@ -85,10 +86,11 @@ onAuthStateChanged(auth, (user) => {
         const userData =  readTheDoc(uid).then(response => {
            return response
         }).then(data => {
-            const filmsCollection = data[arrayName];
+            const filmsCollection = data[arrayName]; 
 
             console.log(filmsCollection);
-            checkMovie(filmsCollection)
+            checkMovie(filmsCollection);
+            
         })
 
        } else {
@@ -97,6 +99,8 @@ onAuthStateChanged(auth, (user) => {
 })
 
 }
+
+//функція для отримання даних
 async function readTheDoc (id) {
     const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
         if (myDoc.exists()) {
@@ -114,6 +118,7 @@ function checkMovie(collection) {
   if (collection.length < 1) {
     emptyInfo.classList.remove(`is-stealth`);
   } else {
+    emptyInfo.classList.add(`is-stealth`);
     renderMovie(collection);
   }
 }
@@ -188,4 +193,16 @@ function checkAndCreateDate(release_date) {
   }
 
   return date;
+}
+
+function checkWatched(collection) {
+  watchedBtn.classList.add('active-btn');
+  queueBtn.classList.remove('active-btn');
+  movieListEl.innerHTML = '';
+  if (collection.length === 0) {
+    emptyInfo.classList.remove(`is-stealth`);
+  } else {
+    emptyInfo.classList.add(`is-stealth`);
+    renderMovie(collection);
+  }
 }
