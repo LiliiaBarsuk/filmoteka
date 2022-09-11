@@ -184,7 +184,7 @@ function createGenresString(genre_ids) {
     .join(', ');
 }
 
-function checkAndCreateDate(release_date) {
+export function checkAndCreateDate(release_date) {
   let date = 'Unknown date';
   if (release_date) {
     date = release_date.slice(0, 4);
