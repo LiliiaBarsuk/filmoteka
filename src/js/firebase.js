@@ -39,24 +39,12 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 const firestore = getFirestore(); //наша бд
 
-// let informAboutChanges
-
-// function listenToADocument() {
-//     informAboutChanges = onSnapshot(docum, (docSnapshot) => {
-//         if (docSnapshot.exists()) {
-//             const docData = docSnapshot.data();
-//             console.log(JSON.stringify(docData));
-//         }
-//     })
-// }
-
-// listenToADocument()
 
 
 // ________________________Реєстрація Авторизація__________________________
 
 const auth = getAuth();
-// connectAuthEmulator(auth, "http://localhost:1234/");
+
 
 //створення запису в Бд
 async function createDoc(email, id) {
