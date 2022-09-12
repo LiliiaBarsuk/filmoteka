@@ -1,6 +1,6 @@
 import { API_KEY, API_URL, createImg, checkAndCreateDate } from './findMovies';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc, exists, onSnapshot, updateDoc, arrayUnion, collection, query, where, getDocs, arrayRemove } from 'firebase/firestore/lite';
+import { readTheDoc, getFirestore, doc, setDoc, getDoc, exists, onSnapshot, updateDoc, arrayUnion, collection, query, where, getDocs, arrayRemove } from 'firebase/firestore/lite';
 import { getAuth, showLoginError, onAuthStateChanged, AuthErrorCodes } from 'firebase/auth';
 import './firebase';
 
@@ -47,6 +47,7 @@ export async function showModal(e) {
       .insertAdjacentHTML('beforeend', createModalCard(movie));
       document.querySelector('body').classList.add('overflow-hidden');
 
+
       checkWatchedButton(movie, watchedMoviesButtonName);
       checkQueueButton(movie, queueMoviesButtonName);
 
@@ -73,6 +74,7 @@ export async function showModal(e) {
               overview: movie.overview,
               date: checkAndCreateDate(movie.release_date),
           }
+
         
           onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
               if (user) {
@@ -294,7 +296,5 @@ export function createModalCard(movie) {
 function createModalGenresString(genres) {
   return genres.map(genre => genre.name).join(', ');
 }
-
-
 
 

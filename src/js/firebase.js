@@ -7,7 +7,8 @@ import { getAuth,
     createUserWithEmailAndPassword, 
     AuthErrorCodes,
     signOut,
-    setPersistence } from 'firebase/auth';
+    setPersistence,
+    currentUser } from 'firebase/auth';
 
 const emailReg = document.querySelector('#user-email-reg');
 const passwordReg = document.querySelector('#user-password-reg');
@@ -44,7 +45,6 @@ const firestore = getFirestore(); //наша бд
 // ________________________Реєстрація Авторизація__________________________
 
 const auth = getAuth();
-
 
 //створення запису в Бд
 async function createDoc(email, id) {

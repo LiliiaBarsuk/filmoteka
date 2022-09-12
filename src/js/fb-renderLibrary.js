@@ -9,6 +9,7 @@ import {
   onSnapshot,
   updateDoc,
   arrayUnion,
+  arrayRemove,
   collection,
   query,
   where,
@@ -390,3 +391,210 @@ function renderQueueLibrary() {
     }
   });
 }
+
+// ----------------Модальне вікно---------------------------------------------
+
+movieListEl.addEventListener('click', showModal)
+
+async function showModal(e) {
+  const movieId = e.target.dataset.id
+  
+  if (e.target.nodeName !== 'IMG') {
+    return;
+  }
+  document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
+  // buttonUpEl.classList.add('is-hidden');
+  
+    //   Отримуємо дані з БД
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+      // User is signed in, see docs for a list of available properties
+      const uid = user.uid;
+      //   Отримуємо дані з БД
+      const userData =  readTheDoc(uid).then(response => {
+         return response
+      }).then(data => {
+        let films
+        if (watchedBtn.classList.contains('active-btn')) {
+        films = data.filmsWatched; // масив з фільмами
+       
+        const mov = films.find(film => film.id === Number(movieId));
+        
+        renderModalWatched(mov);
+      const watchedDeleteBtn = document.querySelector('#filmsWatchedDelete');
+      function delWatched() {
+        updateDoc(doc(firestore, 'users', uid), {  
+               filmsWatched: arrayRemove(mov),
+            })
+     
+      }
+      watchedDeleteBtn.addEventListener('click', delWatched);
+
+     
+        }  else if (queueBtn.classList.contains('active-btn')) {
+          films = data.filmsQueue; // масив з фільмами
+         
+          const mov = films.find(film => film.id === Number(movieId));
+          
+          renderModalQueue(mov);
+
+          function delQueue() {
+            updateDoc(doc(firestore, 'users', uid), {  
+                   filmsQueue: arrayRemove(mov),
+                })
+         
+          }
+         const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
+          queueDeleteBtn.addEventListener('click', delQueue);
+     
+          } 
+      })
+
+     } else {
+      console.log('user is logout');
+      } 
+})
+    
+ 
+  }
+
+function renderModalWatched (movie) {
+    document
+    .querySelector('.modal-thumb')
+    .insertAdjacentHTML('beforeend', createModalCardWatched(movie));
+    document.querySelector('body').classList.add('overflow-hidden');
+}
+function createModalCardWatched(movie) {
+  return `<img class="modal__img" src="${
+    movie.img
+  }" alt="" width="240">
+                <div class="modal__description-thumb">
+                    <h2 class="modal__title">${movie.title}</h2>
+                    <ul class="movie-data">
+                        <li>
+                            <ul class="movie-data__name">
+                                <li>Vote / Votes</li>
+                                <li>Popularity</li>
+                                <li>Original Title</li>
+                                <li>Genre</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="movie-data__content">
+                                <li class="movie-data__item">
+                                    <span class="movie-votes__first">${
+                                      movie.vote_average
+                                    }</span> / <span class="movie-votes__sec">${
+    movie.vote_count
+  }</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-popularity__item">${
+                                      movie.popularity
+                                    }</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-orig-title__item">${
+                                      movie.original_title
+                                    }</span>
+                                </li>
+                                <li class="movie-data__item">
+                                    <span class="movie-genre__item">
+                                      ${movie.genres}
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>  
+                    </ul>
+                    
+                    <p class="movie-about">About</p>
+                    <p class="movie-about-text">${movie.overview}</p>
+                    <ul class="modal-btns">
+                        <li class="modal-btns__item">
+                            <button class="button add-watched-btn delete" type="button" id="filmsWatchedDelete">Delete from Watched</button>
+                        </li>
+                        
+                    </ul>
+                </div>`;
+}
+
+function renderModalQueue (movie) {
+  document
+  .querySelector('.modal-thumb')
+  .insertAdjacentHTML('beforeend', createModalCardQueue(movie));
+  document.querySelector('body').classList.add('overflow-hidden');
+}
+function createModalCardQueue(movie) {
+return `<img class="modal__img" src="${
+  movie.img
+}" alt="" width="240">
+              <div class="modal__description-thumb">
+                  <h2 class="modal__title">${movie.title}</h2>
+                  <ul class="movie-data">
+                      <li>
+                          <ul class="movie-data__name">
+                              <li>Vote / Votes</li>
+                              <li>Popularity</li>
+                              <li>Original Title</li>
+                              <li>Genre</li>
+                          </ul>
+                      </li>
+                      <li>
+                          <ul class="movie-data__content">
+                              <li class="movie-data__item">
+                                  <span class="movie-votes__first">${
+                                    movie.vote_average
+                                  }</span> / <span class="movie-votes__sec">${
+  movie.vote_count
+}</span>
+                              </li>
+                              <li class="movie-data__item">
+                                  <span class="movie-popularity__item">${
+                                    movie.popularity
+                                  }</span>
+                              </li>
+                              <li class="movie-data__item">
+                                  <span class="movie-orig-title__item">${
+                                    movie.original_title
+                                  }</span>
+                              </li>
+                              <li class="movie-data__item">
+                                  <span class="movie-genre__item">
+                                    ${movie.genres}
+                                  </span>
+                              </li>
+                          </ul>
+                      </li>  
+                  </ul>
+                  
+                  <p class="movie-about">About</p>
+                  <p class="movie-about-text">${movie.overview}</p>
+                  <ul class="modal-btns">
+                      <li class="modal-btns__item">
+                          <button class="button add-watched-btn delete" type="button" id="filmsQueueDelete">Delete from queue</button>
+                      </li>
+                  </ul>
+              </div>`;
+}
+const closeModalBtn = document.querySelector('#modal-btn');
+function closeModal() {
+  document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
+  document.querySelector('.modal-thumb').innerHTML = '';
+  document.querySelector('body').classList.remove('overflow-hidden');
+  buttonUpEl.classList.remove('is-hidden');
+  // document.querySelector('.movie-list').removeEventListener('click', showModal);
+  // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
+  
+}
+closeModalBtn.addEventListener('click', () => closeModal());
+document.addEventListener('keydown', e => {
+  if (e.code === 'Escape') {
+    closeModal();
+  }
+});
+document.querySelector('.drop-box').addEventListener('click', e => {
+  if (!document.querySelector('.modal').contains(e.target)) {
+    closeModal();
+  }
+});

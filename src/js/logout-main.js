@@ -8,9 +8,9 @@ import { getAuth,
     signOut,
     setPersistence } from 'firebase/auth';
 
+const logOutMain = document.querySelector('#logout-main');
 
-const logOutBtn = document.querySelector('#logout-lib');
-
+logOutMain.classList.add(`is-stealth`); 
 
 const firebaseConfig = {
     apiKey: "AIzaSyBQAPWu6PN62rmzf-LlZS504qxL8csmmBc",
@@ -24,6 +24,20 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+logOutMain.addEventListener('click', logOut);  
+
+onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
+    if (user) {  
+        logOutMain.classList.remove(`is-stealth`);    
+        }
+
+     else {
+        logOutMain.classList.add(`is-stealth`);
+        console.log('user is logout');
+        } 
+})
+
+
 function logOut() {
     signOut(auth).then(() => {
         location.href = "../index.html";
@@ -35,17 +49,8 @@ function logOut() {
         )
 }
 
-logOutBtn.addEventListener('click', logOut);
-  
 
-// onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
-//     if (user) {  
-//         logOutMain.classList.add(`is-stealth`);    
-//         }
+   
 
-//      else {
-//         logOutMain.classList.remove(`is-stealth`);
-//         console.log('user is logout');
-//         } 
-// })
+
 
