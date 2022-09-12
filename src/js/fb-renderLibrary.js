@@ -54,6 +54,8 @@ const paginationNumbers = document.querySelector('.pagination-list');
 const pagination = document.querySelector('.pagination');
 let pageNumber = 1;
 let totalPages = 1;
+
+
 renderStartLibrary();
 
 loadSpinner.classList.add('is-hidden__spinner');
@@ -225,7 +227,7 @@ function checkMovie(collection) {
 
 function renderMovie(collection) {
   const markUpCards = collection
-    .map(({ img, id, title, genres, date }) => {
+    .map(({ img, id, title, genres, date, vote_average, vote_count }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
@@ -233,7 +235,9 @@ function renderMovie(collection) {
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
                       genres
-                    )} | ${date}</p>
+                    )} | ${date}</p><span class="movie-votes__first modal-votes">${vote_average}</span> / <span class="movie-votes__sec">${
+  vote_count
+}</span>
                 </li>`;
     })
     .join('');
@@ -575,14 +579,19 @@ function closeModal() {
   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
   document.querySelector('.modal-thumb').innerHTML = '';
   document.querySelector('body').classList.remove('overflow-hidden');
-  buttonUpEl.classList.remove('is-hidden');
+  // buttonUpEl.classList.remove('is-hidden');
   // document.querySelector('.movie-list').removeEventListener('click', showModal);
   // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
+  // sessionStorage.setItem('btnQueueCondition', btnQueueCondition);
+ 
+   location.reload();
+  
 }
 closeModalBtn.addEventListener('click', () => closeModal());
 document.addEventListener('keydown', e => {
   if (e.code === 'Escape') {
     closeModal();
+
   }
 });
 document.querySelector('.drop-box').addEventListener('click', e => {
@@ -590,3 +599,9 @@ document.querySelector('.drop-box').addEventListener('click', e => {
     closeModal();
   }
 });
+
+// const btnactive = sessionStorage.getItem('btnQueueCondition');
+// if (btnactive) {
+//   watchedBtn.classList.remove('active-btn');
+//   queueBtn.classList.add('active-btn');
+// }
