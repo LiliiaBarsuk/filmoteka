@@ -102,23 +102,28 @@ function renderStartLibrary() {
           return response;
         })
         .then(data => {
-          let films = data.filmsWatched; // масив з фільмами
+          let films = data.filmsWatched;
+          if (films.length === 0) {
+            pagination.classList.add(`is-stealth`);
+            emptyInfo.classList.remove(`is-stealth`);
+            return;
+          } // масив з фільмами
 
           // -----------
           totalPages = Math.ceil(films.length / 20);
           if (totalPages === 1) {
             checkWatched(films);
             pageNumber = 1;
-            console.log(totalPages);
+            // console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
           } else {
             let i = pageNumber * 20;
             let j = i - 20;
-            console.log(i);
+            // console.log(i);
             films = data.filmsWatched.slice(j, i);
             checkWatched(films);
-            console.log(totalPages);
+            // console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
             return;
@@ -162,6 +167,12 @@ function renderLibrary(e) {
         })
         .then(data => {
           let filmsCollection = data[arrayName];
+          if (filmsCollection.length === 0) {
+            pagination.classList.add(`is-stealth`);
+            emptyInfo.classList.remove(`is-stealth`);
+            checkMovie(filmsCollection);
+            return;
+          }
 
           // console.log(filmsCollection);
 
@@ -202,6 +213,8 @@ function checkMovie(collection) {
   movieListEl.innerHTML = '';
   if (collection.length < 1) {
     emptyInfo.classList.remove(`is-stealth`);
+    pagination.classList.add(`is-stealth`);
+    return;
   } else {
     emptyInfo.classList.add(`is-stealth`);
     renderMovie(collection);
@@ -365,7 +378,11 @@ function renderQueueLibrary() {
         })
         .then(data => {
           let films = data.filmsQueue; // масив з фільмами
-
+          if (films.length === 0) {
+            pagination.classList.add(`is-stealth`);
+            emptyInfo.classList.remove(`is-stealth`);
+            return;
+          }
           // -----------
           totalPages = Math.ceil(films.length / 20);
           if (totalPages === 1) {
@@ -394,81 +411,75 @@ function renderQueueLibrary() {
 
 // ----------------Модальне вікно---------------------------------------------
 
-movieListEl.addEventListener('click', showModal)
+movieListEl.addEventListener('click', showModal);
 
 async function showModal(e) {
-  const movieId = e.target.dataset.id
-  
+  const movieId = e.target.dataset.id;
+
   if (e.target.nodeName !== 'IMG') {
     return;
   }
   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
   // buttonUpEl.classList.add('is-hidden');
-  
-    //   Отримуємо дані з БД
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
+  //   Отримуємо дані з БД
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
       // User is signed in, see docs for a list of available properties
       const uid = user.uid;
       //   Отримуємо дані з БД
-      const userData =  readTheDoc(uid).then(response => {
-         return response
-      }).then(data => {
-        let films
-        if (watchedBtn.classList.contains('active-btn')) {
-        films = data.filmsWatched; // масив з фільмами
-       
-        const mov = films.find(film => film.id === Number(movieId));
-        
-        renderModalWatched(mov);
-      const watchedDeleteBtn = document.querySelector('#filmsWatchedDelete');
-      function delWatched() {
-        updateDoc(doc(firestore, 'users', uid), {  
-               filmsWatched: arrayRemove(mov),
-            })
-     
-      }
-      watchedDeleteBtn.addEventListener('click', delWatched);
+      const userData = readTheDoc(uid)
+        .then(response => {
+          return response;
+        })
+        .then(data => {
+          let films;
+          if (watchedBtn.classList.contains('active-btn')) {
+            films = data.filmsWatched; // масив з фільмами
 
-     
-        }  else if (queueBtn.classList.contains('active-btn')) {
-          films = data.filmsQueue; // масив з фільмами
-         
-          const mov = films.find(film => film.id === Number(movieId));
-          
-          renderModalQueue(mov);
+            const mov = films.find(film => film.id === Number(movieId));
 
-          function delQueue() {
-            updateDoc(doc(firestore, 'users', uid), {  
-                   filmsQueue: arrayRemove(mov),
-                })
-         
+            renderModalWatched(mov);
+            const watchedDeleteBtn = document.querySelector(
+              '#filmsWatchedDelete'
+            );
+            function delWatched() {
+              updateDoc(doc(firestore, 'users', uid), {
+                filmsWatched: arrayRemove(mov),
+              });
+            }
+            watchedDeleteBtn.addEventListener('click', delWatched);
+          } else if (queueBtn.classList.contains('active-btn')) {
+            films = data.filmsQueue; // масив з фільмами
+
+            const mov = films.find(film => film.id === Number(movieId));
+
+            renderModalQueue(mov);
+
+            function delQueue() {
+              updateDoc(doc(firestore, 'users', uid), {
+                filmsQueue: arrayRemove(mov),
+              });
+            }
+            const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
+            queueDeleteBtn.addEventListener('click', delQueue);
           }
-         const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
-          queueDeleteBtn.addEventListener('click', delQueue);
-     
-          } 
-      })
-
-     } else {
+        });
+    } else {
       console.log('user is logout');
-      } 
-})
-    
- 
-  }
+    }
+  });
+}
 
-function renderModalWatched (movie) {
-    document
+function renderModalWatched(movie) {
+  document
     .querySelector('.modal-thumb')
     .insertAdjacentHTML('beforeend', createModalCardWatched(movie));
-    document.querySelector('body').classList.add('overflow-hidden');
+  document.querySelector('body').classList.add('overflow-hidden');
 }
 function createModalCardWatched(movie) {
-  return `<img class="modal__img" src="${
-    movie.img
-  }" alt="" width="240">
+  return `<img class="modal__img" src="${movie.img}" alt="" width="240">
                 <div class="modal__description-thumb">
                     <h2 class="modal__title">${movie.title}</h2>
                     <ul class="movie-data">
@@ -483,21 +494,13 @@ function createModalCardWatched(movie) {
                         <li>
                             <ul class="movie-data__content">
                                 <li class="movie-data__item">
-                                    <span class="movie-votes__first">${
-                                      movie.vote_average
-                                    }</span> / <span class="movie-votes__sec">${
-    movie.vote_count
-  }</span>
+                                    <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-popularity__item">${
-                                      movie.popularity
-                                    }</span>
+                                    <span class="movie-popularity__item">${movie.popularity}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-orig-title__item">${
-                                      movie.original_title
-                                    }</span>
+                                    <span class="movie-orig-title__item">${movie.original_title}</span>
                                 </li>
                                 <li class="movie-data__item">
                                     <span class="movie-genre__item">
@@ -519,16 +522,14 @@ function createModalCardWatched(movie) {
                 </div>`;
 }
 
-function renderModalQueue (movie) {
+function renderModalQueue(movie) {
   document
-  .querySelector('.modal-thumb')
-  .insertAdjacentHTML('beforeend', createModalCardQueue(movie));
+    .querySelector('.modal-thumb')
+    .insertAdjacentHTML('beforeend', createModalCardQueue(movie));
   document.querySelector('body').classList.add('overflow-hidden');
 }
 function createModalCardQueue(movie) {
-return `<img class="modal__img" src="${
-  movie.img
-}" alt="" width="240">
+  return `<img class="modal__img" src="${movie.img}" alt="" width="240">
               <div class="modal__description-thumb">
                   <h2 class="modal__title">${movie.title}</h2>
                   <ul class="movie-data">
@@ -543,21 +544,13 @@ return `<img class="modal__img" src="${
                       <li>
                           <ul class="movie-data__content">
                               <li class="movie-data__item">
-                                  <span class="movie-votes__first">${
-                                    movie.vote_average
-                                  }</span> / <span class="movie-votes__sec">${
-  movie.vote_count
-}</span>
+                                  <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
                               </li>
                               <li class="movie-data__item">
-                                  <span class="movie-popularity__item">${
-                                    movie.popularity
-                                  }</span>
+                                  <span class="movie-popularity__item">${movie.popularity}</span>
                               </li>
                               <li class="movie-data__item">
-                                  <span class="movie-orig-title__item">${
-                                    movie.original_title
-                                  }</span>
+                                  <span class="movie-orig-title__item">${movie.original_title}</span>
                               </li>
                               <li class="movie-data__item">
                                   <span class="movie-genre__item">
@@ -585,7 +578,6 @@ function closeModal() {
   buttonUpEl.classList.remove('is-hidden');
   // document.querySelector('.movie-list').removeEventListener('click', showModal);
   // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
-  
 }
 closeModalBtn.addEventListener('click', () => closeModal());
 document.addEventListener('keydown', e => {
