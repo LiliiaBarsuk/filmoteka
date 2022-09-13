@@ -41,7 +41,7 @@ onAuthStateChanged(auth, user => {
 function logOut() {
   signOut(auth)
     .then(() => {
-      location.href = './filmoteka-team3/index.html';
+      location.href = '../filmoteka-team3/index.html';
       console.log('Sign-out successful.');
     })
     .catch(error => {
