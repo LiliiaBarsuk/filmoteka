@@ -32,6 +32,7 @@ export async function showModal(e) {
   if (e.target.nodeName !== 'IMG') {
     return;
   }
+  document.querySelector('.modal-thumb').innerHTML = '';
 
   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
   buttonUpEl.classList.add('is-hidden');
@@ -131,8 +132,8 @@ export async function showModal(e) {
                 };      
                 readTheDoc(uid); 
               } else {
-                  console.log('user is logout');
-                  } 
+                console.log('user is logout');
+              } 
           })
       }       
     
@@ -222,7 +223,6 @@ function checkQueueButton(movie, buttonName) {
 
 export function closeModal() {
   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
-  document.querySelector('.modal-thumb').innerHTML = '';
   document.querySelector('body').classList.remove('overflow-hidden');
   buttonUpEl.classList.remove('is-hidden');
   // document.querySelector('.movie-list').removeEventListener('click', showModal);
