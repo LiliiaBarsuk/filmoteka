@@ -3,6 +3,8 @@ import { initializeApp } from 'firebase/app';
 import { readTheDoc, getFirestore, doc, setDoc, getDoc, exists, onSnapshot, updateDoc, arrayUnion, collection, query, where, getDocs, arrayRemove } from 'firebase/firestore/lite';
 import { getAuth, showLoginError, onAuthStateChanged, AuthErrorCodes } from 'firebase/auth';
 import './firebase';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBQAPWu6PN62rmzf-LlZS504qxL8csmmBc",
@@ -89,12 +91,14 @@ export async function showModal(e) {
                         deleteFromStorage(uid, arrayName, movieItem)
 
                         e.target.textContent = "Add to watched";
+                        iziToast.success({title: 'DELETE', message: 'Successfully delete record!',});                        
                         return;
                       } 
                     }
 
                     addToStorage(uid, arrayName, movieItem)
-                    e.target.textContent = "Delete from watched";                    
+                    e.target.textContent = "Delete from watched";
+                    iziToast.success({title: 'ADD', message: 'Successfully insert record!',});
                   }
                 };      
                 readTheDoc(uid); 
@@ -122,12 +126,14 @@ export async function showModal(e) {
                         deleteFromStorage(uid, arrayName, movieItem)
 
                         e.target.textContent = "Add to queue";
+                        iziToast.success({title: 'DELETE', message: 'Successfully delete record!',}); 
                         return;
                       } 
                     }
 
                     addToStorage(uid, arrayName, movieItem)
-                    e.target.textContent = "Delete from queue";                    
+                    e.target.textContent = "Delete from queue";
+                    iziToast.success({title: 'ADD', message: 'Successfully insert record!',});
                   }
                 };      
                 readTheDoc(uid); 
