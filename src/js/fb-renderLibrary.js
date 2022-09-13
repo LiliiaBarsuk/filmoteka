@@ -26,6 +26,7 @@ import {
   setPersistence,
 } from 'firebase/auth';
 
+
 const firebaseConfig = {
   apiKey: 'AIzaSyBQAPWu6PN62rmzf-LlZS504qxL8csmmBc',
   authDomain: 'filmoteka-bdb19.firebaseapp.com',
@@ -226,8 +227,11 @@ function checkMovie(collection) {
 }
 
 function renderMovie(collection) {
-  const markUpCards = collection
-    .map(({ img, id, title, genres, date, vote_average, vote_count }) => {
+  let markUpCards 
+  if (collection.length === 0) {
+    markUpCards = "";
+  }
+  markUpCards = collection.map(({ img, id, title, genres, date, vote_average }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
@@ -235,13 +239,11 @@ function renderMovie(collection) {
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
                       genres
-                    )} | ${date}</p><span class="movie-votes__first modal-votes">${vote_average}</span> / <span class="movie-votes__sec">${
-  vote_count
-}</span>
+                    )} | ${date}</p><span class="movie-votes__first modal-votes">${vote_average}</span>
                 </li>`;
     })
     .join('');
-
+    
   // console.log(markUpCards);
   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
 }
@@ -296,6 +298,7 @@ function checkWatched(collection) {
   movieListEl.innerHTML = '';
   if (collection.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
+    
   } else {
     emptyInfo.classList.add(`is-stealth`);
     renderMovie(collection);
@@ -370,7 +373,7 @@ function paginationPageChange() {
 function renderQueueLibrary() {
   watchedBtn.classList.remove('active-btn');
   queueBtn.classList.add('active-btn');
-
+  console.log('render11');
   onAuthStateChanged(auth, user => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -452,6 +455,9 @@ async function showModal(e) {
               updateDoc(doc(firestore, 'users', uid), {
                 filmsWatched: arrayRemove(mov),
               });
+              watchedDeleteBtn.disabled = true; 
+              watchedDeleteBtn.classList.add('button-disabled');
+             
             }
             watchedDeleteBtn.addEventListener('click', delWatched);
           } else if (queueBtn.classList.contains('active-btn')) {
@@ -465,6 +471,10 @@ async function showModal(e) {
               updateDoc(doc(firestore, 'users', uid), {
                 filmsQueue: arrayRemove(mov),
               });
+              queueDeleteBtn.disabled = true; 
+              queueDeleteBtn.classList.add('button-disabled');
+              renderQueueLibrary()
+              console.log('render2');
             }
             const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
             queueDeleteBtn.addEventListener('click', delQueue);
@@ -583,8 +593,7 @@ function closeModal() {
   // document.querySelector('.movie-list').removeEventListener('click', showModal);
   // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
   // sessionStorage.setItem('btnQueueCondition', btnQueueCondition);
- 
-   location.reload();
+  //  location.reload();
   
 }
 closeModalBtn.addEventListener('click', () => closeModal());
