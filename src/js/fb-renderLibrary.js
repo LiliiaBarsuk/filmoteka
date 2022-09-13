@@ -109,6 +109,7 @@ function renderStartLibrary() {
           if (films.length === 0) {
             pagination.classList.add(`is-stealth`);
             emptyInfo.classList.remove(`is-stealth`);
+            checkWatched(films);
             return;
           } // масив з фільмами
 
@@ -214,7 +215,9 @@ async function readTheDoc(id) {
 
 function checkMovie(collection) {
   movieListEl.innerHTML = '';
+ 
   if (collection.length < 1) {
+    movieListEl.innerHTML = '';
     emptyInfo.classList.remove(`is-stealth`);
     pagination.classList.add(`is-stealth`);
     return;
@@ -228,10 +231,7 @@ function checkMovie(collection) {
 
 function renderMovie(collection) {
   let markUpCards 
-  if (collection.length === 0) {
-    markUpCards = "";
-  }
-  else {
+
   markUpCards = collection.map(({ img, id, title, genres, date, vote_average }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
@@ -243,7 +243,7 @@ function renderMovie(collection) {
                     )} | ${date}</p><span class="movie-votes__first modal-votes">${vote_average}</span>
                 </li>`;
     })
-    .join('');}
+    .join('');
     
   // console.log(markUpCards);
   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
@@ -389,6 +389,7 @@ function renderQueueLibrary() {
           if (films.length === 0) {
             pagination.classList.add(`is-stealth`);
             emptyInfo.classList.remove(`is-stealth`);
+            checkWatched(films);
             return;
           }
           // -----------
