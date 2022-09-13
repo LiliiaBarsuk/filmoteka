@@ -38,24 +38,7 @@
   width: 40px;
   height: 40px;
   background-color: #f7f7f7;
-  
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-  box-shadow: -1px 35px 40px -18px rgba(0, 0, 0, 0.3);
- 
 }
-
-.pagination-btn__arrow-left:hover, 
-.pagination-btn__arrow-left:focus, 
-.pagination-btn__arrow-right:hover, 
-.pagination-btn__arrow-right:focus {
-  box-shadow: -1px 15px 20px -15px rgba(0, 0, 0, 1);
-   border: 2px solid  #ff6b08;
-  }
-
 
 @media screen and (max-width: 767px) {
   .pagination-item:nth-child(1),
