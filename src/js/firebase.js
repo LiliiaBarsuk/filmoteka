@@ -25,6 +25,12 @@ import {
   currentUser,
 } from 'firebase/auth';
 
+/* <link rel="stylesheet" href="iziToast.min.css"></link> */
+//   <script src="iziToast.min.js" type="text/javascript"></script>;
+// import 'simplelightbox/dist/simple-lightbox.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+
 const emailReg = document.querySelector('#user-email-reg');
 const passwordReg = document.querySelector('#user-password-reg');
 const btnReg = document.querySelector('#btn-reg');
@@ -90,8 +96,16 @@ async function loginEmailPassword(event) {
     btnSignIn.classList.add('is-stealth');
     modalAuth.classList.remove('open');
     body.classList.remove('overflow-hidden');
+    iziToast.success({
+      title: 'OK',
+      message: 'Successful login to the account!',
+    });
   } catch (error) {
     console.log('error');
+    iziToast.error({
+      title: 'Error',
+      message: 'Check the entered data or Sign up',
+    });
   }
 }
 
@@ -114,8 +128,16 @@ async function createAccaunt(event) {
     btnSignIn.classList.add('is-stealth');
     modalReg.classList.remove('open');
     body.classList.remove('overflow-hidden');
+    iziToast.success({
+      title: 'OK',
+      message: 'Account created successfully!',
+    });
   } catch (error) {
     console.log(error);
+    iziToast.error({
+      title: 'Error',
+      message: 'Check the entered data or Sign in',
+    });
   }
 }
 
