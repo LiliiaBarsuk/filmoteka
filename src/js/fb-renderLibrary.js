@@ -231,6 +231,7 @@ function renderMovie(collection) {
   if (collection.length === 0) {
     markUpCards = "";
   }
+  else {
   markUpCards = collection.map(({ img, id, title, genres, date, vote_average }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
@@ -242,7 +243,7 @@ function renderMovie(collection) {
                     )} | ${date}</p><span class="movie-votes__first modal-votes">${vote_average}</span>
                 </li>`;
     })
-    .join('');
+    .join('');}
     
   // console.log(markUpCards);
   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
@@ -457,6 +458,7 @@ async function showModal(e) {
               });
               watchedDeleteBtn.disabled = true; 
               watchedDeleteBtn.classList.add('button-disabled');
+              renderStartLibrary()
              
             }
             watchedDeleteBtn.addEventListener('click', delWatched);
@@ -474,7 +476,6 @@ async function showModal(e) {
               queueDeleteBtn.disabled = true; 
               queueDeleteBtn.classList.add('button-disabled');
               renderQueueLibrary()
-              console.log('render2');
             }
             const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
             queueDeleteBtn.addEventListener('click', delQueue);
