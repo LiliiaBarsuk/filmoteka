@@ -28,8 +28,7 @@ const watchedMoviesButtonName = '.add-watched-btn';
 const queueMoviesStorageName = 'filmsQueue';
 const queueMoviesButtonName = '.add-queue-btn';
 
-export async function showModal(e) {
-  // console.log(e);
+export async function showModal(e) {  
   if (e.target.nodeName !== 'IMG') {
     return;
   }
@@ -55,33 +54,29 @@ export async function showModal(e) {
       addToLibrBtn = document.querySelector(watchedMoviesButtonName);
       addToQueueBtn = document.querySelector(queueMoviesButtonName);
 
-      addToLibrBtn.addEventListener('click', addToLibrary);
+      addToLibrBtn.addEventListener('click', addToWatchedLibrary);
       addToQueueBtn.addEventListener('click', addQueueLibrary);
 
-      function addToLibrary(e) { // додає дані до firestore
-          const arrayName = e.target.id; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали          
-          console.log(arrayName);
-      
-          const movieItem = {
-              id: movie.id,
-              title: movie.title,
-              img: createImg(movie.poster_path),
-              vote_average: movie.vote_average,
-              vote_count: movie.vote_count,
-              popularity: movie.popularity,
-              original_title: movie.original_title,
-              genres: createModalGenresString(movie.genres),
-              overview: movie.overview,
-              date: checkAndCreateDate(movie.release_date),
-          }
+      const movieItem = {
+        id: movie.id,
+        title: movie.title,
+        img: createImg(movie.poster_path),
+        vote_average: movie.vote_average,
+        vote_count: movie.vote_count,
+        popularity: movie.popularity,
+        original_title: movie.original_title,
+        genres: createModalGenresString(movie.genres),
+        overview: movie.overview,
+        date: checkAndCreateDate(movie.release_date),
+      }
 
-        
-          onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
+      function addToWatchedLibrary(e) { // додає дані до firestore
+        const arrayName = watchedMoviesStorageName; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали 
+      
+        onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
               if (user) {
                   // User is signed in, see docs for a list of available properties
-                  const uid = user.uid; //id користувача
-                  //   Оновлюємо дані 
-                
+                const uid = user.uid; //id користувача                  
                   
                 async function readTheDoc(id) {
                   const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
@@ -90,53 +85,32 @@ export async function showModal(e) {
 
                     for (let i = 0; i < data.filmsWatched.length; i += 1) {
                       if (data.filmsWatched[i].id === movieItem.id) {
-                        updateDoc(doc(firestore, 'users', `${uid}`), {  //оновлюємо дані в firestore
-                          [arrayName]: arrayRemove(movieItem)  // видаляємо об`єкт фільму з масиву
-                        })
+                        deleteFromStorage(uid, arrayName, movieItem)
 
                         e.target.textContent = "Add to watched";
                         return;
                       } 
                     }
 
-                    updateDoc(doc(firestore, 'users', `${uid}`), {
-                      [arrayName]: arrayUnion(movieItem)  // додаємо об`єкт фільму до масиву (це треба буде видалити, якщо буде умова з іф)
-                    })
-                    e.target.textContent = "Delete from watched";
-                    console.log(data.filmsWatched);  
+                    addToStorage(uid, arrayName, movieItem)
+                    e.target.textContent = "Delete from watched";                    
                   }
                 };      
                 readTheDoc(uid); 
               } else {
-                  console.log('user is logout');
-                  } 
+                console.log('user is logout');
+              } 
           })
       }
       
       function addQueueLibrary(e) { // додає дані до firestore
-          const arrayName = e.target.id; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали          
-          console.log(arrayName);
-      
-          const movieItem = {
-              id: movie.id,
-              title: movie.title,
-              img: createImg(movie.poster_path),
-              vote_average: movie.vote_average,
-              vote_count: movie.vote_count,
-              popularity: movie.popularity,
-              original_title: movie.original_title,
-              genres: createModalGenresString(movie.genres),
-              overview: movie.overview,
-              date: checkAndCreateDate(movie.release_date),
-          }
+          const arrayName = queueMoviesStorageName; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали 
         
           onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
               if (user) {
-                  // User is signed in, see docs for a list of available properties
-                  const uid = user.uid; //id користувача
-                  //   Оновлюємо дані 
-                
-                  
+                // User is signed in, see docs for a list of available properties
+                const uid = user.uid; //id користувача
+               
                 async function readTheDoc(id) {
                   const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
                   if (myDoc.exists()) {
@@ -144,20 +118,15 @@ export async function showModal(e) {
 
                     for (let i = 0; i < data.filmsQueue.length; i += 1) {
                       if (data.filmsQueue[i].id === movieItem.id) {
-                        updateDoc(doc(firestore, 'users', `${uid}`), {  //оновлюємо дані в firestore
-                          [arrayName]: arrayRemove(movieItem)  // видаляємо об`єкт фільму з масиву
-                        })
+                        deleteFromStorage(uid, arrayName, movieItem)
 
                         e.target.textContent = "Add to queue";
                         return;
                       } 
                     }
 
-                    updateDoc(doc(firestore, 'users', `${uid}`), {
-                      [arrayName]: arrayUnion(movieItem)  // додаємо об`єкт фільму до масиву (це треба буде видалити, якщо буде умова з іф)
-                    })
-                    e.target.textContent = "Delete from queue";
-                    console.log(data.filmsQueue);  
+                    addToStorage(uid, arrayName, movieItem)
+                    e.target.textContent = "Delete from queue";                    
                   }
                 };      
                 readTheDoc(uid); 
@@ -165,11 +134,23 @@ export async function showModal(e) {
                   console.log('user is logout');
                   } 
           })
-        }       
+      }       
     
       checkUserLogIn();
       
     }).catch(error => console.log(error));
+}
+
+function addToStorage(uid, arrayName, movieItem) {
+  updateDoc(doc(firestore, 'users', `${uid}`), {
+    [arrayName]: arrayUnion(movieItem)  // додаємо об`єкт фільму до масиву (це треба буде видалити, якщо буде умова з іф)
+  })
+}
+
+function deleteFromStorage(uid, arrayName, movieItem) {
+  updateDoc(doc(firestore, 'users', `${uid}`), {  //оновлюємо дані в firestore
+    [arrayName]: arrayRemove(movieItem)  // видаляємо об`єкт фільму з масиву
+  })
 }
 
 function checkUserLogIn() {
