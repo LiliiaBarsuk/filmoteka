@@ -167,7 +167,18 @@ export async function showModal(e) {
           })
         }       
     
+      checkUserLogIn();
+      
     }).catch(error => console.log(error));
+}
+
+function checkUserLogIn() {
+  onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
+    if (!user) {
+      document.querySelector(watchedMoviesButtonName).classList.add('disabled');
+      document.querySelector(queueMoviesButtonName).classList.add('disabled');
+    } 
+  })
 }
 
 function checkWatchedButton(movie, buttonName) {
