@@ -242,9 +242,7 @@ function renderMovie(collection) {
                       img
                     )}" data-id="${id}" alt="${title}" width="280">
                     <h2 class="movie-title">${title}</h2>
-                    <p class="movie-description">${createGenresString(
-                      genres
-                    )} | ${date}</p><span class="movie-votes__first modal-votes">${vote_average}</span>
+                    <p class="movie-description">${createGenresString(genres)} | ${date} <span class="modal-votes">${vote_average}</span></p>
                 </li>`;
     })
     .join('');
