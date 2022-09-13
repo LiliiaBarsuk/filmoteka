@@ -427,7 +427,7 @@ async function showModal(e) {
     return;
   }
   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
-  // buttonUpEl.classList.add('is-hidden');
+  document.querySelector('.button-up').classList.add('is-hidden');
 
   //   Отримуємо дані з БД
 

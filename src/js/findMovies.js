@@ -1,4 +1,3 @@
-
 import { genres } from '../genres.json';
 import { showModal, closeModal } from './fb-film-modal';
 
@@ -116,34 +115,22 @@ function serchingParametr(e) {
 
 function createMoviesList(movies) {
   return movies.results
-    .map(({ poster_path, id, title, genre_ids, release_date }) => {
-      return `<li class="movie-item">
+    .map(
+      ({ poster_path, id, title, genre_ids, release_date, vote_average }) => {
+        return `<li class="movie-item movie-view__image">
                     <img class="movie-img" src="${createImg(
                       poster_path
                     )}" data-id="${id}" alt="${title}" width="280">
+                    <span class ="movie-view__rate">${vote_average}</span>
                     <h2 class="movie-title">${title}</h2>
                     <p class="movie-description">${createGenresString(
                       genre_ids
                     )} | ${checkAndCreateDate(release_date)}</p>
                 </li>`;
-    })
+      }
+    )
     .join('');
 }
-
-let scrollPos = 0;
-const buttonUpEl = document.querySelector('.button-up');
-
-function checkPosition() {
-  let windowY = window.scrollY;
-  if (windowY < scrollPos) {
-    buttonUpEl.classList.add('is-hidden');
-  } else {
-    buttonUpEl.classList.remove('is-hidden');
-  }
-  scrollPos = windowY;
-}
-
-window.addEventListener('scroll', checkPosition);
 
 export function createImg(poster_path) {
   let noposter = new Image();
