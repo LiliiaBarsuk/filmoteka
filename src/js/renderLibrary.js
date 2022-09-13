@@ -1,113 +1,113 @@
-import './modal-developers';
+// import './modal-developers';
 
-let watchedMovie = JSON.parse(localStorage.getItem('watchedMoviesStorage'));
-// console.log(watchedMovie);
-let queueMovie = JSON.parse(localStorage.getItem('queueMoviesStorage'));
-// console.log(queueMovie);
-const emptyInfo = document.querySelector('.info');
-const movieListEl = document.querySelector('.movie-list');
-const queueBtn = document.querySelector('.queue-btn');
-const watchedBtn = document.querySelector('.watched-btn');
+// let watchedMovie = JSON.parse(localStorage.getItem('watchedMoviesStorage'));
+// // console.log(watchedMovie);
+// let queueMovie = JSON.parse(localStorage.getItem('queueMoviesStorage'));
+// // console.log(queueMovie);
+// const emptyInfo = document.querySelector('.info');
+// const movieListEl = document.querySelector('.movie-list');
+// const queueBtn = document.querySelector('.queue-btn');
+// const watchedBtn = document.querySelector('.watched-btn');
 
-console.log(queueBtn);
-console.log(watchedBtn);
+// console.log(queueBtn);
+// console.log(watchedBtn);
 
-checkWatched();
-queueBtn.addEventListener('click', checkQueue);
-watchedBtn.addEventListener('click', checkWatched);
+// checkWatched();
+// queueBtn.addEventListener('click', checkQueue);
+// watchedBtn.addEventListener('click', checkWatched);
 
 
-function checkQueue() {
-  watchedBtn.classList.remove('active-btn');
-  queueBtn.classList.add('active-btn');
-  movieListEl.innerHTML = '';
-  if (localStorage.length === 0 || queueMovie.length === 0) {
-    emptyInfo.classList.remove(`is-stealth`);
-  } else {
-    renderQueueMovie();
-  }
-}
+// function checkQueue() {
+//   watchedBtn.classList.remove('active-btn');
+//   queueBtn.classList.add('active-btn');
+//   movieListEl.innerHTML = '';
+//   if (localStorage.length === 0 || queueMovie.length === 0) {
+//     emptyInfo.classList.remove(`is-stealth`);
+//   } else {
+//     renderQueueMovie();
+//   }
+// }
 
-function checkWatched() {
-  watchedBtn.classList.add('active-btn');
-  queueBtn.classList.remove('active-btn');
-  movieListEl.innerHTML = '';
-  if (localStorage.length === 0 || watchedMovie.length === 0) {
-    emptyInfo.classList.remove(`is-stealth`);
-  } else {
-    renderWatchedMovie();
-  }
-}
+// function checkWatched() {
+//   watchedBtn.classList.add('active-btn');
+//   queueBtn.classList.remove('active-btn');
+//   movieListEl.innerHTML = '';
+//   if (localStorage.length === 0 || watchedMovie.length === 0) {
+//     emptyInfo.classList.remove(`is-stealth`);
+//   } else {
+//     renderWatchedMovie();
+//   }
+// }
 
-function renderWatchedMovie() {
-  if (watchedMovie) {
-    emptyInfo.classList.add(`is-stealth`);
-    const markUpCards = watchedMovie
-      .map(({ img, id, title, genres, date }) => {
-        return `<li class="movie-item">
-                    <img class="movie-img" src="${createImg(
-                      img
-                    )}" data-id="${id}" alt="${title}" width="280">
-                    <h2 class="movie-title">${title}</h2>
-                    <p class="movie-description">${createGenresString(
-                      genres
-                    )} | ${date}</p>
-                </li>`;
-      })
-      .join('');
+// function renderWatchedMovie() {
+//   if (watchedMovie) {
+//     emptyInfo.classList.add(`is-stealth`);
+//     const markUpCards = watchedMovie
+//       .map(({ img, id, title, genres, date }) => {
+//         return `<li class="movie-item">
+//                     <img class="movie-img" src="${createImg(
+//                       img
+//                     )}" data-id="${id}" alt="${title}" width="280">
+//                     <h2 class="movie-title">${title}</h2>
+//                     <p class="movie-description">${createGenresString(
+//                       genres
+//                     )} | ${date}</p>
+//                 </li>`;
+//       })
+//       .join('');
 
-    // console.log(markUpCards);
-    movieListEl.insertAdjacentHTML('beforeend', markUpCards);
-    return;
-  }
-  emptyInfo.classList.remove(`is-stealth`);
-  loadSpinner.classList.add('is-hidden__spinner');
-}
+//     // console.log(markUpCards);
+//     movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+//     return;
+//   }
+//   emptyInfo.classList.remove(`is-stealth`);
+//   loadSpinner.classList.add('is-hidden__spinner');
+// }
 
-function renderQueueMovie() {
-  if (queueMovie) {
-    emptyInfo.classList.add(`is-stealth`);
-    const markUpCards = queueMovie
-      .map(({ img, id, title, genres, date }) => {
-        return `<li class="movie-item">
-                    <img class="movie-img" src="${createImg(
-                      img
-                    )}" data-id="${id}" alt="${title}" width="280">
-                    <h2 class="movie-title">${title}</h2>
-                    <p class="movie-description">${createGenresString(
-                      genres
-                    )} | ${date}</p>
-                </li>`;
-      })
-      .join('');
+// function renderQueueMovie() {
+//   if (queueMovie) {
+//     emptyInfo.classList.add(`is-stealth`);
+//     const markUpCards = queueMovie
+//       .map(({ img, id, title, genres, date }) => {
+//         return `<li class="movie-item">
+//                     <img class="movie-img" src="${createImg(
+//                       img
+//                     )}" data-id="${id}" alt="${title}" width="280">
+//                     <h2 class="movie-title">${title}</h2>
+//                     <p class="movie-description">${createGenresString(
+//                       genres
+//                     )} | ${date}</p>
+//                 </li>`;
+//       })
+//       .join('');
 
-    movieListEl.insertAdjacentHTML('beforeend', markUpCards);
-    return;
-  }
-  emptyInfo.classList.remove(`is-stealth`);
-}
+//     movieListEl.insertAdjacentHTML('beforeend', markUpCards);
+//     return;
+//   }
+//   emptyInfo.classList.remove(`is-stealth`);
+// }
 
-function createImg(img) {
-  let noposter = new Image();
-  noposter.src = require('../images/noposter.jpg');
-  let posterPath = img;
-  if (img === null || img === '') {
-    posterPath = noposter.src;
-  }
-  return posterPath;
-}
+// function createImg(img) {
+//   let noposter = new Image();
+//   noposter.src = require('../images/noposter.jpg');
+//   let posterPath = img;
+//   if (img === null || img === '') {
+//     posterPath = noposter.src;
+//   }
+//   return posterPath;
+// }
 
-function createGenresString(genres) {
-  if (genres === '') {
-    return 'Unknown genre';
-  }
-  if (genres.includes(',')) {
-    const genresArray = genres.split(',');
-    if (genresArray.length > 2) {
-      return genresArray.slice(0, 2).join(', ') + ', others...';
-    } else {
-      return genresArray.join(', ');
-    }
-  }
-  return genres;
-}
+// function createGenresString(genres) {
+//   if (genres === '') {
+//     return 'Unknown genre';
+//   }
+//   if (genres.includes(',')) {
+//     const genresArray = genres.split(',');
+//     if (genresArray.length > 2) {
+//       return genresArray.slice(0, 2).join(', ') + ', others...';
+//     } else {
+//       return genresArray.join(', ');
+//     }
+//   }
+//   return genres;
+// }

@@ -232,7 +232,11 @@ body.overflow-hidden {
 }
 
 .modal-votes {
-   width: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    background-color: #FF6B01;
+    color: #ffffff;
 }
 
 .button-disabled {
