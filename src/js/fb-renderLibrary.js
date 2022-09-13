@@ -479,6 +479,10 @@ async function showModal(e) {
               });
               queueDeleteBtn.disabled = true;
               queueDeleteBtn.classList.add('button-disabled');
+              iziToast.success({
+                title: 'DELETE',
+                message: 'Successfully delete record!',
+              });
               renderQueueLibrary();
             }
             const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
