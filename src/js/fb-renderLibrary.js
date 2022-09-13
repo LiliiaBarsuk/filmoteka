@@ -27,6 +27,9 @@ import {
 } from 'firebase/auth';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+iziToast.settings({
+  timeout: 2000,
+});
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBQAPWu6PN62rmzf-LlZS504qxL8csmmBc',

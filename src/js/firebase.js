@@ -30,6 +30,9 @@ import {
 // import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+iziToast.settings({
+  timeout: 2000,
+});
 
 const emailReg = document.querySelector('#user-email-reg');
 const passwordReg = document.querySelector('#user-password-reg');
@@ -60,7 +63,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const firestore = getFirestore(); 
+const firestore = getFirestore();
 
 // ________________________Реєстрація Авторизація__________________________
 
@@ -144,11 +147,11 @@ async function createAccaunt(event) {
 btnReg.addEventListener('click', createAccaunt);
 btnAuth.addEventListener('click', loginEmailPassword);
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-    btnLibrary.classList.remove('is-stealth') 
-     } else {
-        btnSignIn.classList.remove('is-stealth')
+onAuthStateChanged(auth, user => {
+  if (user) {
+    btnLibrary.classList.remove('is-stealth');
+  } else {
+    btnSignIn.classList.remove('is-stealth');
     console.log('user is logout');
   }
 });
