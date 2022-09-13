@@ -60,7 +60,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const firestore = getFirestore(); //наша бд
+const firestore = getFirestore(); 
 
 // ________________________Реєстрація Авторизація__________________________
 
@@ -144,33 +144,11 @@ async function createAccaunt(event) {
 btnReg.addEventListener('click', createAccaunt);
 btnAuth.addEventListener('click', loginEmailPassword);
 
-// ________________________________Log out ________________________-
-// async function monitorUserStatus() {
-
-// }
-
-// const docRef = doc(firestore, 'users', '')
-
-// отримати дані з бд
-async function readTheDoc(id) {
-  const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
-  if (myDoc.exists()) {
-    const data = myDoc.data();
-    console.log(data.filmsWatched);
-  }
-}
-
-// додати дані фільму по кліку на кнопку в БД аналогічно робимо для queue
-const obj = {
-  name: 'qwe',
-  title: 'qwert',
-};
-//перевіряємо чи користувач залогінений і можемо оновити записи в бд
-onAuthStateChanged(auth, user => {
-  if (user) {
-    btnLibrary.classList.remove('is-stealth');
-  } else {
-    btnSignIn.classList.remove('is-stealth');
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+    btnLibrary.classList.remove('is-stealth') 
+     } else {
+        btnSignIn.classList.remove('is-stealth')
     console.log('user is logout');
   }
 });

@@ -230,3 +230,13 @@ body.overflow-hidden {
 .delete {
     height: 50px;
 }
+
+.modal-votes {
+   width: 50px;
+}
+
+.button-disabled {
+    border: 1px solid #000000;
+    color: #000000;
+    background-color: #ffffff;  
+}
