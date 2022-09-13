@@ -3,6 +3,8 @@ import { initializeApp } from 'firebase/app';
 import { readTheDoc, getFirestore, doc, setDoc, getDoc, exists, onSnapshot, updateDoc, arrayUnion, collection, query, where, getDocs, arrayRemove } from 'firebase/firestore/lite';
 import { getAuth, showLoginError, onAuthStateChanged, AuthErrorCodes } from 'firebase/auth';
 import './firebase';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBQAPWu6PN62rmzf-LlZS504qxL8csmmBc",
@@ -32,6 +34,7 @@ export async function showModal(e) {
   if (e.target.nodeName !== 'IMG') {
     return;
   }
+  document.querySelector('.modal-thumb').innerHTML = '';
 
   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
   buttonUpEl.classList.add('is-hidden');
@@ -88,12 +91,14 @@ export async function showModal(e) {
                         deleteFromStorage(uid, arrayName, movieItem)
 
                         e.target.textContent = "Add to watched";
+                        iziToast.success({title: 'DELETE', message: 'Successfully delete record!',});                        
                         return;
                       } 
                     }
 
                     addToStorage(uid, arrayName, movieItem)
-                    e.target.textContent = "Delete from watched";                    
+                    e.target.textContent = "Delete from watched";
+                    iziToast.success({title: 'ADD', message: 'Successfully insert record!',});
                   }
                 };      
                 readTheDoc(uid); 
@@ -121,18 +126,20 @@ export async function showModal(e) {
                         deleteFromStorage(uid, arrayName, movieItem)
 
                         e.target.textContent = "Add to queue";
+                        iziToast.success({title: 'DELETE', message: 'Successfully delete record!',}); 
                         return;
                       } 
                     }
 
                     addToStorage(uid, arrayName, movieItem)
-                    e.target.textContent = "Delete from queue";                    
+                    e.target.textContent = "Delete from queue";
+                    iziToast.success({title: 'ADD', message: 'Successfully insert record!',});
                   }
                 };      
                 readTheDoc(uid); 
               } else {
-                  console.log('user is logout');
-                  } 
+                console.log('user is logout');
+              } 
           })
       }       
     
@@ -222,7 +229,6 @@ function checkQueueButton(movie, buttonName) {
 
 export function closeModal() {
   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
-  document.querySelector('.modal-thumb').innerHTML = '';
   document.querySelector('body').classList.remove('overflow-hidden');
   buttonUpEl.classList.remove('is-hidden');
   // document.querySelector('.movie-list').removeEventListener('click', showModal);
