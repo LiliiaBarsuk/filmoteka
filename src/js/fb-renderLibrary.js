@@ -25,7 +25,8 @@ import {
   signOut,
   setPersistence,
 } from 'firebase/auth';
-
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBQAPWu6PN62rmzf-LlZS504qxL8csmmBc',
@@ -55,7 +56,6 @@ const paginationNumbers = document.querySelector('.pagination-list');
 const pagination = document.querySelector('.pagination');
 let pageNumber = 1;
 let totalPages = 1;
-
 
 renderStartLibrary();
 
@@ -215,7 +215,7 @@ async function readTheDoc(id) {
 
 function checkMovie(collection) {
   movieListEl.innerHTML = '';
- 
+
   if (collection.length < 1) {
     movieListEl.innerHTML = '';
     emptyInfo.classList.remove(`is-stealth`);
@@ -230,9 +230,10 @@ function checkMovie(collection) {
 }
 
 function renderMovie(collection) {
-  let markUpCards 
+  let markUpCards;
 
-  markUpCards = collection.map(({ img, id, title, genres, date, vote_average }) => {
+  markUpCards = collection
+    .map(({ img, id, title, genres, date, vote_average }) => {
       return `<li class="movie-item">
                     <img class="movie-img" src="${createImg(
                       img
@@ -244,7 +245,7 @@ function renderMovie(collection) {
                 </li>`;
     })
     .join('');
-    
+
   // console.log(markUpCards);
   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
 }
@@ -299,7 +300,6 @@ function checkWatched(collection) {
   movieListEl.innerHTML = '';
   if (collection.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
-    
   } else {
     emptyInfo.classList.add(`is-stealth`);
     renderMovie(collection);
@@ -457,10 +457,13 @@ async function showModal(e) {
               updateDoc(doc(firestore, 'users', uid), {
                 filmsWatched: arrayRemove(mov),
               });
-              watchedDeleteBtn.disabled = true; 
+              watchedDeleteBtn.disabled = true;
               watchedDeleteBtn.classList.add('button-disabled');
-              renderStartLibrary()
-             
+              iziToast.success({
+                title: 'DELETE',
+                message: 'Successfully delete record!',
+              });
+              renderStartLibrary();
             }
             watchedDeleteBtn.addEventListener('click', delWatched);
           } else if (queueBtn.classList.contains('active-btn')) {
@@ -474,9 +477,9 @@ async function showModal(e) {
               updateDoc(doc(firestore, 'users', uid), {
                 filmsQueue: arrayRemove(mov),
               });
-              queueDeleteBtn.disabled = true; 
+              queueDeleteBtn.disabled = true;
               queueDeleteBtn.classList.add('button-disabled');
-              renderQueueLibrary()
+              renderQueueLibrary();
             }
             const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
             queueDeleteBtn.addEventListener('click', delQueue);
@@ -596,13 +599,11 @@ function closeModal() {
   // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
   // sessionStorage.setItem('btnQueueCondition', btnQueueCondition);
   //  location.reload();
-  
 }
 closeModalBtn.addEventListener('click', () => closeModal());
 document.addEventListener('keydown', e => {
   if (e.code === 'Escape') {
     closeModal();
-
   }
 });
 document.querySelector('.drop-box').addEventListener('click', e => {
