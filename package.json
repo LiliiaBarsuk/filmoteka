@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "firebase": "^9.9.4",
+    "izitoast": "^1.4.0",
     "modern-normalize": "^1.1.0"
   },
   "devDependencies": {
