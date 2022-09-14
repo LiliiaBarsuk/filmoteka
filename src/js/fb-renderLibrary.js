@@ -427,7 +427,10 @@ async function showModal(e) {
                 title: 'DELETE',
                 message: 'Successfully delete record!',
               });
-              renderStartLibrary();
+              setTimeout(() => {
+                renderStartLibrary();
+              }, 100);
+              // renderStartLibrary();
             }
             watchedDeleteBtn.addEventListener('click', delWatched);
           } else if (queueBtn.classList.contains('active-btn')) {
@@ -447,7 +450,10 @@ async function showModal(e) {
                 title: 'DELETE',
                 message: 'Successfully delete record!',
               });
-              renderQueueLibrary();
+              setTimeout(() => {
+                renderQueueLibrary();                
+              }, 100);
+              // renderQueueLibrary();
             }
             const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
             queueDeleteBtn.addEventListener('click', delQueue);
