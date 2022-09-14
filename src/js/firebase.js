@@ -24,10 +24,6 @@ import {
   setPersistence,
   currentUser,
 } from 'firebase/auth';
-
-/* <link rel="stylesheet" href="iziToast.min.css"></link> */
-//   <script src="iziToast.min.js" type="text/javascript"></script>;
-// import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 iziToast.settings({
@@ -37,11 +33,9 @@ iziToast.settings({
 const emailReg = document.querySelector('#user-email-reg');
 const passwordReg = document.querySelector('#user-password-reg');
 const btnReg = document.querySelector('#btn-reg');
-
 const emailAuth = document.querySelector('#user-email-auth');
 const passwordAuth = document.querySelector('#user-password-auth');
 const btnAuth = document.querySelector('#btn-auth');
-
 const btnLibrary = document.querySelector('.library');
 const btnSignIn = document.querySelector('.authorization');
 const modalAuth = document.querySelector('.auth-modal');
@@ -126,7 +120,6 @@ async function createAccaunt(event) {
     );
     const userId = userCredential.user.uid;
     createDoc(regEmail, userId);
-    console.log('new user');
     btnLibrary.classList.remove('is-stealth');
     btnSignIn.classList.add('is-stealth');
     modalReg.classList.remove('open');
@@ -136,7 +129,6 @@ async function createAccaunt(event) {
       message: 'Account created successfully!',
     });
   } catch (error) {
-    console.log(error);
     iziToast.error({
       title: 'Error',
       message: 'Check the entered data or Sign in',
@@ -152,6 +144,5 @@ onAuthStateChanged(auth, user => {
     btnLibrary.classList.remove('is-stealth');
   } else {
     btnSignIn.classList.remove('is-stealth');
-    console.log('user is logout');
   }
 });

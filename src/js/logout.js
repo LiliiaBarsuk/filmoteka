@@ -28,22 +28,10 @@ function logOut() {
   signOut(auth)
     .then(() => {
       location.href = '../filmoteka-team3/index.html';
-      console.log('Sign-out successful.');
     })
     .catch(error => {
-      console.log(qwe);
+      console.log(error);
     });
 }
 
 logOutBtn.addEventListener('click', logOut);
-
-// onAuthStateChanged(auth, (user) => { //перевіряємо чи користувач залогінений
-//     if (user) {
-//         logOutMain.classList.add(`is-stealth`);
-//         }
-
-//      else {
-//         logOutMain.classList.remove(`is-stealth`);
-//         console.log('user is logout');
-//         }
-// })

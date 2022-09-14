@@ -121,29 +121,18 @@ function renderStartLibrary() {
           if (totalPages === 1) {
             checkWatched(films);
             pageNumber = 1;
-            // console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
           } else {
             let i = pageNumber * 20;
             let j = i - 20;
-            // console.log(i);
             films = data.filmsWatched.slice(j, i);
             checkWatched(films);
-            // console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
             return;
           }
-          // ///////------
-          // checkWatched(films);
-          // totalPages = Math.ceil(films.length / 20);
-          // console.log(totalPages);
-          // pagination.classList.remove(`is-stealth`);
-          // puginationNumeration(pageNumber, totalPages);
         });
-    } else {
-      console.log('user is logout');
     }
   });
 }
@@ -181,22 +170,17 @@ function renderLibrary(e) {
             return;
           }
 
-          // console.log(filmsCollection);
-
           totalPages = Math.ceil(filmsCollection.length / 20);
           if (totalPages === 1) {
             checkMovie(filmsCollection);
             pageNumber = 1;
-            console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
           } else {
             let i = pageNumber * 20;
             let j = i - 20;
-            console.log(i);
             filmsCollection = data[arrayName].slice(j, i);
             checkMovie(filmsCollection);
-            console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
           }
@@ -242,33 +226,15 @@ function renderMovie(collection) {
                       img
                     )}" data-id="${id}" alt="${title}" width="280">
                     <h2 class="movie-title">${title}</h2>
-                    <p class="movie-description">${createGenresString(genres)} | ${date} <span class="modal-votes">${vote_average}</span></p>
+                    <p class="movie-description">${createGenresString(
+                      genres
+                    )} | ${date} <span class="modal-votes">${vote_average}</span></p>
                 </li>`;
     })
     .join('');
 
-  // console.log(markUpCards);
   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
 }
-
-// function renderQueueMovie() {
-//   const markUpCards = queueMovie
-//     .map(({ img, id, title, genres, release_date }) => {
-//       return `<li class="movie-item">
-//                     <img class="movie-img" src="${createImg(
-//                       img
-//                     )}" data-id="${id}" alt="${title}" width="280">
-//                     <h2 class="movie-title">${title}</h2>
-//                     <p class="movie-description">${createGenresString(
-//                       genres
-//                     )} | ${checkAndCreateDate(release_date)}</p>
-//                 </li>`;
-//     })
-//     .join('');
-
-// console.log(markUpCards);
-//   movieListEl.insertAdjacentHTML('beforeend', markUpCards);
-// }
 
 function createImg(img) {
   let noposter = new Image();
@@ -296,8 +262,6 @@ function createGenresString(genres) {
 }
 
 function checkWatched(collection) {
-  // watchedBtn.classList.add('active-btn');
-  // queueBtn.classList.remove('active-btn');
   movieListEl.innerHTML = '';
   if (collection.length === 0) {
     emptyInfo.classList.remove(`is-stealth`);
@@ -317,7 +281,7 @@ function puginationNumeration(currentPage, totalPages) {
   } else {
     paginationBtn[1].textContent = '';
   }
-  // paginationBtn[1].textContent = Number.parseInt(currentPage) - 3 > 0 ? Number.parseInt(currentPage) - 3 === 1 ? 1 : '...' : '';
+
   paginationBtn[2].textContent =
     Number.parseInt(currentPage) - 2 > 0
       ? Number.parseInt(currentPage) - 2
@@ -343,7 +307,7 @@ function puginationNumeration(currentPage, totalPages) {
   } else {
     paginationBtn[7].textContent = '';
   }
-  // paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages) ? '...' : '';
+
   paginationBtn[8].textContent =
     Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages)
       ? Number.parseInt(totalPages)
@@ -375,7 +339,6 @@ function paginationPageChange() {
 function renderQueueLibrary() {
   watchedBtn.classList.remove('active-btn');
   queueBtn.classList.add('active-btn');
-  console.log('render11');
   onAuthStateChanged(auth, user => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -398,16 +361,15 @@ function renderQueueLibrary() {
           if (totalPages === 1) {
             checkWatched(films);
             pageNumber = 1;
-            console.log(totalPages);
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
           } else {
             let i = pageNumber * 20;
             let j = i - 20;
-            console.log(i);
+
             films = data.filmsQueue.slice(j, i);
             checkWatched(films);
-            console.log(totalPages);
+
             pagination.classList.remove(`is-stealth`);
             puginationNumeration(pageNumber, totalPages);
             return;
@@ -598,13 +560,7 @@ function createModalCardQueue(movie) {
 const closeModalBtn = document.querySelector('#modal-btn');
 function closeModal() {
   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
-  // document.querySelector('.modal-thumb').innerHTML = '';
   document.querySelector('body').classList.remove('overflow-hidden');
-  // buttonUpEl.classList.remove('is-hidden');
-  // document.querySelector('.movie-list').removeEventListener('click', showModal);
-  // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
-  // sessionStorage.setItem('btnQueueCondition', btnQueueCondition);
-  //  location.reload();
 }
 closeModalBtn.addEventListener('click', () => closeModal());
 document.addEventListener('keydown', e => {
@@ -617,9 +573,3 @@ document.querySelector('.drop-box').addEventListener('click', e => {
     closeModal();
   }
 });
-
-// const btnactive = sessionStorage.getItem('btnQueueCondition');
-// if (btnactive) {
-//   watchedBtn.classList.remove('active-btn');
-//   queueBtn.classList.add('active-btn');
-// }

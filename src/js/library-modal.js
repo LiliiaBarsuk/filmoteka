@@ -1,13 +1,11 @@
-export function renderModalWatched (movie) {
-    document
+export function renderModalWatched(movie) {
+  document
     .querySelector('.modal-thumb')
     .insertAdjacentHTML('beforeend', createModalCardWatched(movie));
-    document.querySelector('body').classList.add('overflow-hidden');
+  document.querySelector('body').classList.add('overflow-hidden');
 }
 function createModalCardWatched(movie) {
-  return `<img class="modal__img" src="${
-    movie.img
-  }" alt="" width="240">
+  return `<img class="modal__img" src="${movie.img}" alt="" width="240">
                 <div class="modal__description-thumb">
                     <h2 class="modal__title">${movie.title}</h2>
                     <ul class="movie-data">
@@ -22,21 +20,13 @@ function createModalCardWatched(movie) {
                         <li>
                             <ul class="movie-data__content">
                                 <li class="movie-data__item">
-                                    <span class="movie-votes__first">${
-                                      movie.vote_average
-                                    }</span> / <span class="movie-votes__sec">${
-    movie.vote_count
-  }</span>
+                                    <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-popularity__item">${
-                                      movie.popularity
-                                    }</span>
+                                    <span class="movie-popularity__item">${movie.popularity}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-orig-title__item">${
-                                      movie.original_title
-                                    }</span>
+                                    <span class="movie-orig-title__item">${movie.original_title}</span>
                                 </li>
                                 <li class="movie-data__item">
                                     <span class="movie-genre__item">
@@ -58,16 +48,14 @@ function createModalCardWatched(movie) {
                 </div>`;
 }
 
-export function renderModalQueue (movie) {
+export function renderModalQueue(movie) {
   document
-  .querySelector('.modal-thumb')
-  .insertAdjacentHTML('beforeend', createModalCardQueue(movie));
+    .querySelector('.modal-thumb')
+    .insertAdjacentHTML('beforeend', createModalCardQueue(movie));
   document.querySelector('body').classList.add('overflow-hidden');
 }
 function createModalCardQueue(movie) {
-return `<img class="modal__img" src="${
-  movie.img
-}" alt="" width="240">
+  return `<img class="modal__img" src="${movie.img}" alt="" width="240">
               <div class="modal__description-thumb">
                   <h2 class="modal__title">${movie.title}</h2>
                   <ul class="movie-data">
@@ -82,21 +70,13 @@ return `<img class="modal__img" src="${
                       <li>
                           <ul class="movie-data__content">
                               <li class="movie-data__item">
-                                  <span class="movie-votes__first">${
-                                    movie.vote_average
-                                  }</span> / <span class="movie-votes__sec">${
-  movie.vote_count
-}</span>
+                                  <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
                               </li>
                               <li class="movie-data__item">
-                                  <span class="movie-popularity__item">${
-                                    movie.popularity
-                                  }</span>
+                                  <span class="movie-popularity__item">${movie.popularity}</span>
                               </li>
                               <li class="movie-data__item">
-                                  <span class="movie-orig-title__item">${
-                                    movie.original_title
-                                  }</span>
+                                  <span class="movie-orig-title__item">${movie.original_title}</span>
                               </li>
                               <li class="movie-data__item">
                                   <span class="movie-genre__item">
@@ -115,19 +95,12 @@ return `<img class="modal__img" src="${
                       </li>
                   </ul>
               </div>`;
-};
+}
 
 export function closeModal() {
-    document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
-    document.querySelector('.modal-thumb').innerHTML = '';
-    document.querySelector('body').classList.remove('overflow-hidden');
-    // buttonUpEl.classList.remove('is-hidden');
-    // document.querySelector('.movie-list').removeEventListener('click', showModal);
-    // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
-    const btnQueueCondition = queueBtn.classList.contains('active-btn');
-    // sessionStorage.setItem('btnQueueCondition', btnQueueCondition);
-   
-     location.reload();
-    
-  }
-
+  document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
+  document.querySelector('.modal-thumb').innerHTML = '';
+  document.querySelector('body').classList.remove('overflow-hidden');
+  const btnQueueCondition = queueBtn.classList.contains('active-btn');
+  location.reload();
+}
