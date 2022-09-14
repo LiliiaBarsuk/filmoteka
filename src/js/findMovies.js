@@ -91,8 +91,6 @@ function showMovies(url) {
   fetch(url)
     .then(response => response.json())
     .then(movies => {
-      console.log(movies);
-
       checkforNotFoundNotification(
         movies.results === undefined || movies.results.length < 1
       );
@@ -207,94 +205,6 @@ function checkforNotFoundNotification(flag) {
     .classList.contains('disabled');
 }
 
-// moved to film-showModal.js
-// function showModal(e) {
-//   if (e.target.nodeName !== 'IMG') {
-//     return;
-//   }
-
-//   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
-
-//   let url = `${API_URL}movie/${e.target.dataset.id}?api_key=${API_KEY}`;
-
-//   fetch(url)
-//     .then(response => response.json())
-//     .then(movie => {
-//       console.log(movie);
-//       document
-//         .querySelector('.modal-thumb')
-//         .insertAdjacentHTML('beforeend', createModalCard(movie));
-//       document.querySelector('body').classList.add('overflow-hidden');
-//     })
-//     .catch(error => console.log(error));
-// }
-// moved to film-showModal.js
-// function closeModal() {
-//   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
-//   document.querySelector('.modal-thumb').innerHTML = '';
-//   document.querySelector('body').classList.remove('overflow-hidden');
-// }
-
-// export function createModalCard(movie) {
-//   return `<img class="modal__img" src="${createImg(
-//     movie.poster_path
-//   )}" alt="" width="240">
-//                 <div class="modal__description-thumb">
-//                     <h2 class="modal__title">${movie.title}</h2>
-//                     <ul class="movie-data">
-//                         <li>
-//                             <ul class="movie-data__name">
-//                                 <li>Vote / Votes</li>
-//                                 <li>Popularity</li>
-//                                 <li>Original Title</li>
-//                                 <li>Genre</li>
-//                             </ul>
-//                         </li>
-//                         <li>
-//                             <ul class="movie-data__content">
-//                                 <li class="movie-data__item">
-//                                     <span class="movie-votes__first">${
-//                                       movie.vote_average
-//                                     }</span> / <span class="movie-votes__sec">${
-//     movie.vote_count
-//   }</span>
-//                                 </li>
-//                                 <li class="movie-data__item">
-//                                     <span class="movie-popularity__item">${
-//                                       movie.popularity
-//                                     }</span>
-//                                 </li>
-//                                 <li class="movie-data__item">
-//                                     <span class="movie-orig-title__item">${
-//                                       movie.original_title
-//                                     }</span>
-//                                 </li>
-//                                 <li class="movie-data__item">
-//                                     <span class="movie-genre__item">${createModalGenresString(
-//                                       movie.genres
-//                                     )}</span>
-//                                 </li>
-//                             </ul>
-//                         </li>
-//                     </ul>
-
-//                     <p class="movie-about">About</p>
-//                     <p class="movie-about-text">${movie.overview}</p>
-//                     <ul class="modal-btns">
-//                         <li class="modal-btns__item">
-//                             <button class="button add-watched-btn" type="button">Add to Watched</button>
-//                         </li>
-//                         <li class="modal-btns__item">
-//                             <button class="button add-queue-btn" type="button">Add to queue</button>
-//                         </li>
-//                     </ul>
-//                 </div>`;
-// }
-
-// function createModalGenresString(genres) {
-//   return genres.map(genre => genre.name).join(', ');
-// }
-
 function puginationNumeration(currentPage, totalPages) {
   paginationBtn[0].textContent = Number.parseInt(currentPage) - 4 > 0 ? 1 : '';
 
@@ -305,7 +215,6 @@ function puginationNumeration(currentPage, totalPages) {
   } else {
     paginationBtn[1].textContent = '';
   }
-  // paginationBtn[1].textContent = Number.parseInt(currentPage) - 3 > 0 ? Number.parseInt(currentPage) - 3 === 1 ? 1 : '...' : '';
   paginationBtn[2].textContent =
     Number.parseInt(currentPage) - 2 > 0
       ? Number.parseInt(currentPage) - 2
@@ -331,7 +240,6 @@ function puginationNumeration(currentPage, totalPages) {
   } else {
     paginationBtn[7].textContent = '';
   }
-  // paginationBtn[7].textContent = Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages) ? '...' : '';
   paginationBtn[8].textContent =
     Number.parseInt(currentPage) + 4 <= Number.parseInt(totalPages)
       ? Number.parseInt(totalPages)

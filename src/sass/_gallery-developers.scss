@@ -3,7 +3,6 @@
   min-width: 150px;
   display: grid;
 
-  // row-gap: 60px;
   row-gap: 30px;
   justify-content: center;
   margin-left: auto;
@@ -126,7 +125,6 @@
   &:focus,
   &:hover .gallery__links,
   &:focus .gallery__links {
-    // display: flex;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
       1px 4px 6px rgba(0, 0, 0, 0.16);
     cursor: pointer;
@@ -141,18 +139,3 @@
     margin-left: 20px;
   }
 }
-// .icon {
-//   &__link {
-//     fill: #afb1b8;
-//     background-color: black;
-//     &:hover,
-//     &:focus {
-//       background-color: purple;
-//       cursor: pointer;
-//       fill: #ffffff;
-//     }
-//   }
-// }
-// .icon:hover {
-//   transform: scale(1.1);
-// }

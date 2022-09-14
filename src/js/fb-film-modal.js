@@ -225,12 +225,9 @@ function checkWatchedButton(movie, buttonName) {
               document.querySelector(buttonName).textContent = 'Add to watched';
             }
           }
-          console.log(data.filmsWatched);
         }
       }
       readTheDoc(uid);
-    } else {
-      console.log('user is logout');
     }
   });
 }
@@ -254,12 +251,9 @@ function checkQueueButton(movie, buttonName) {
               document.querySelector(buttonName).textContent = 'Add to queue';
             }
           }
-          console.log(data.filmsQueue);
         }
       }
       readTheDoc(uid);
-    } else {
-      console.log('user is logout');
     }
   });
 }

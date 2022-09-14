@@ -24,17 +24,13 @@ function onClickAuthLink(e) {
 function onClickCloseBtn() {
   authModal.classList.remove('open');
   body.classList.remove('overflow-hidden');
-  // console.log('-');
   document.removeEventListener('keydown', onEscapeClick);
   closeBtn.removeEventListener('click', onClickCloseBtn);
   authBackdrop.removeEventListener('click', onAuthBackdropClick);
 }
 
 function onAuthBackdropClick(e) {
-  // console.log(e.currentTarget);
-  // console.log(e.target);
   if (e.currentTarget === e.target) {
-    // console.log('click backdrop');
     onClickCloseBtn();
   }
 }
@@ -64,14 +60,12 @@ function onRegistrCloseBtn() {
 
 function onRegistrBackdropClick(e) {
   if (e.currentTarget === e.target) {
-    // console.log('click backdrop');
     onRegistrCloseBtn();
   }
 }
 
 function onEscapeClick(e) {
   if (e.code === 'Escape') {
-    // console.log('escape');
     onClickCloseBtn();
     onRegistrCloseBtn();
   }
