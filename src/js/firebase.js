@@ -59,11 +59,8 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 const firestore = getFirestore();
 
-// ________________________Реєстрація Авторизація__________________________
-
 const auth = getAuth();
 
-//створення запису в Бд
 async function createDoc(email, id) {
   const docData = {
     email: email,
@@ -78,7 +75,6 @@ async function createDoc(email, id) {
   }
 }
 
-//авторизація користувача
 async function loginEmailPassword(event) {
   event.preventDefault();
   const loginEmail = emailAuth.value;
@@ -106,7 +102,6 @@ async function loginEmailPassword(event) {
   }
 }
 
-//створення акаунта
 async function createAccaunt(event) {
   event.preventDefault();
   const regEmail = emailReg.value;

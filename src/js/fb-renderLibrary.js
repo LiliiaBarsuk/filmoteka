@@ -3,27 +3,13 @@ import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   doc,
-  setDoc,
   getDoc,
-  exists,
-  onSnapshot,
   updateDoc,
-  arrayUnion,
   arrayRemove,
-  collection,
-  query,
-  where,
-  getDocs,
 } from 'firebase/firestore/lite';
 import {
   getAuth,
-  showLoginError,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  AuthErrorCodes,
-  signOut,
-  setPersistence,
 } from 'firebase/auth';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -42,7 +28,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const firestore = getFirestore(); //наша бд
+const firestore = getFirestore(); 
 
 const auth = getAuth();
 
@@ -100,9 +86,7 @@ function renderStartLibrary() {
 
   onAuthStateChanged(auth, user => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
       const uid = user.uid;
-      //   Отримуємо дані з БД
       const userData = readTheDoc(uid)
         .then(response => {
           return response;
@@ -114,7 +98,7 @@ function renderStartLibrary() {
             emptyInfo.classList.remove(`is-stealth`);
             checkWatched(films);
             return;
-          } // масив з фільмами
+          } 
 
           // -----------
           totalPages = Math.ceil(films.length / 20);
@@ -154,9 +138,7 @@ function renderLibrary(e) {
 
   onAuthStateChanged(auth, user => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
       const uid = user.uid;
-      //   Отримуємо дані з БД
       const userData = readTheDoc(uid)
         .then(response => {
           return response;
@@ -191,7 +173,6 @@ function renderLibrary(e) {
   });
 }
 
-//функція для отримання даних
 async function readTheDoc(id) {
   const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
   if (myDoc.exists()) {
@@ -222,13 +203,9 @@ function renderMovie(collection) {
   markUpCards = collection
     .map(({ img, id, title, genres, date, vote_average }) => {
       return `<li class="movie-item">
-                    <img class="movie-img" src="${createImg(
-                      img
-                    )}" data-id="${id}" alt="${title}" width="280">
+                    <img class="movie-img" src="${createImg(img)}" data-id="${id}" alt="${title}" width="280">
                     <h2 class="movie-title">${title}</h2>
-                    <p class="movie-description">${createGenresString(
-                      genres
-                    )} | ${date} <span class="modal-votes">${vote_average}</span></p>
+                    <p class="movie-description">${createGenresString(genres)} | ${date} <span class="modal-votes">${vote_average}</span></p>
                 </li>`;
     })
     .join('');
@@ -341,15 +318,14 @@ function renderQueueLibrary() {
   queueBtn.classList.add('active-btn');
   onAuthStateChanged(auth, user => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
       const uid = user.uid;
-      //   Отримуємо дані з БД
+
       const userData = readTheDoc(uid)
         .then(response => {
           return response;
         })
         .then(data => {
-          let films = data.filmsQueue; // масив з фільмами
+          let films = data.filmsQueue; 
           if (films.length === 0) {
             pagination.classList.add(`is-stealth`);
             emptyInfo.classList.remove(`is-stealth`);
@@ -395,13 +371,9 @@ async function showModal(e) {
   document.querySelector('.drop-box').classList.remove('drop-box--is-hidden');
   document.querySelector('.button-up').classList.add('is-hidden');
 
-  //   Отримуємо дані з БД
-
   onAuthStateChanged(auth, user => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
       const uid = user.uid;
-      //   Отримуємо дані з БД
       const userData = readTheDoc(uid)
         .then(response => {
           return response;
@@ -409,7 +381,7 @@ async function showModal(e) {
         .then(data => {
           let films;
           if (watchedBtn.classList.contains('active-btn')) {
-            films = data.filmsWatched; // масив з фільмами
+            films = data.filmsWatched; 
 
             const mov = films.find(film => film.id === Number(movieId));
 
@@ -430,11 +402,10 @@ async function showModal(e) {
               setTimeout(() => {
                 renderStartLibrary();
               }, 100);
-              // renderStartLibrary();
             }
             watchedDeleteBtn.addEventListener('click', delWatched);
           } else if (queueBtn.classList.contains('active-btn')) {
-            films = data.filmsQueue; // масив з фільмами
+            films = data.filmsQueue; 
 
             const mov = films.find(film => film.id === Number(movieId));
 
@@ -453,7 +424,6 @@ async function showModal(e) {
               setTimeout(() => {
                 renderQueueLibrary();                
               }, 100);
-              // renderQueueLibrary();
             }
             const queueDeleteBtn = document.querySelector('#filmsQueueDelete');
             queueDeleteBtn.addEventListener('click', delQueue);
@@ -509,8 +479,7 @@ function createModalCardWatched(movie) {
                     <ul class="modal-btns">
                         <li class="modal-btns__item">
                             <button class="button add-watched-btn delete" type="button" id="filmsWatchedDelete">Delete from Watched</button>
-                        </li>
-                        
+                        </li>                       
                     </ul>
                 </div>`;
 }
@@ -521,6 +490,7 @@ function renderModalQueue(movie) {
     .insertAdjacentHTML('beforeend', createModalCardQueue(movie));
   document.querySelector('body').classList.add('overflow-hidden');
 }
+
 function createModalCardQueue(movie) {
   return `<img class="modal__img" src="${movie.img}" alt="" width="240">
               <div class="modal__description-thumb">
@@ -563,17 +533,20 @@ function createModalCardQueue(movie) {
                   </ul>
               </div>`;
 }
+
 const closeModalBtn = document.querySelector('#modal-btn');
 function closeModal() {
   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
   document.querySelector('body').classList.remove('overflow-hidden');
 }
+
 closeModalBtn.addEventListener('click', () => closeModal());
 document.addEventListener('keydown', e => {
   if (e.code === 'Escape') {
     closeModal();
   }
 });
+
 document.querySelector('.drop-box').addEventListener('click', e => {
   if (!document.querySelector('.modal').contains(e.target)) {
     closeModal();

@@ -1,13 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
-  showLoginError,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  AuthErrorCodes,
   signOut,
-  setPersistence,
 } from 'firebase/auth';
 
 const logOutBtn = document.querySelector('#logout-lib');

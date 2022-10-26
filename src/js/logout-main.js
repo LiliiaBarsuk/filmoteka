@@ -1,13 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
-  showLoginError,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  AuthErrorCodes,
   signOut,
-  setPersistence,
 } from 'firebase/auth';
 
 const logOutMain = document.querySelector('#logout-main');
@@ -29,7 +24,6 @@ const auth = getAuth();
 logOutMain.addEventListener('click', logOut);
 
 onAuthStateChanged(auth, user => {
-  //перевіряємо чи користувач залогінений
   if (user) {
     logOutMain.classList.remove(`is-stealth`);
   } else {

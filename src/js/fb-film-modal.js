@@ -1,30 +1,21 @@
 import { API_KEY, API_URL, createImg, checkAndCreateDate } from './findMovies';
 import { initializeApp } from 'firebase/app';
 import {
-  readTheDoc,
   getFirestore,
   doc,
-  setDoc,
   getDoc,
-  exists,
-  onSnapshot,
   updateDoc,
   arrayUnion,
-  collection,
-  query,
-  where,
-  getDocs,
   arrayRemove,
 } from 'firebase/firestore/lite';
 import {
   getAuth,
-  showLoginError,
   onAuthStateChanged,
-  AuthErrorCodes,
 } from 'firebase/auth';
 import './firebase';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+
 iziToast.settings({
   timeout: 2000,
 });
@@ -40,7 +31,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const firestore = getFirestore(); //наша бд
+const firestore = getFirestore(); 
 const auth = getAuth();
 let addToLibrBtn;
 let addToQueueBtn;
@@ -93,14 +84,11 @@ export async function showModal(e) {
       };
 
       function addToWatchedLibrary(e) {
-        // додає дані до firestore
-        const arrayName = watchedMoviesStorageName; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали
+        const arrayName = watchedMoviesStorageName; 
 
         onAuthStateChanged(auth, user => {
-          //перевіряємо чи користувач залогінений
           if (user) {
-            // User is signed in, see docs for a list of available properties
-            const uid = user.uid; //id користувача
+            const uid = user.uid;
 
             async function readTheDoc(id) {
               const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
@@ -136,14 +124,10 @@ export async function showModal(e) {
       }
 
       function addQueueLibrary(e) {
-        // додає дані до firestore
-        const arrayName = queueMoviesStorageName; // масив до якого треба дод дані, відповідно до того по якій кнопці нажали
-
+        const arrayName = queueMoviesStorageName; 
         onAuthStateChanged(auth, user => {
-          //перевіряємо чи користувач залогінений
           if (user) {
-            // User is signed in, see docs for a list of available properties
-            const uid = user.uid; //id користувача
+            const uid = user.uid; 
 
             async function readTheDoc(id) {
               const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
@@ -185,20 +169,18 @@ export async function showModal(e) {
 
 function addToStorage(uid, arrayName, movieItem) {
   updateDoc(doc(firestore, 'users', `${uid}`), {
-    [arrayName]: arrayUnion(movieItem), // додаємо об`єкт фільму до масиву (це треба буде видалити, якщо буде умова з іф)
+    [arrayName]: arrayUnion(movieItem), 
   });
 }
 
 function deleteFromStorage(uid, arrayName, movieItem) {
   updateDoc(doc(firestore, 'users', `${uid}`), {
-    //оновлюємо дані в firestore
-    [arrayName]: arrayRemove(movieItem), // видаляємо об`єкт фільму з масиву
+    [arrayName]: arrayRemove(movieItem), 
   });
 }
 
 function checkUserLogIn() {
   onAuthStateChanged(auth, user => {
-    //перевіряємо чи користувач залогінений
     if (!user) {
       document.querySelector(watchedMoviesButtonName).classList.add('disabled');
       document.querySelector(queueMoviesButtonName).classList.add('disabled');
@@ -208,9 +190,8 @@ function checkUserLogIn() {
 
 function checkWatchedButton(movie, buttonName) {
   onAuthStateChanged(auth, user => {
-    //перевіряємо чи користувач залогінений
     if (user) {
-      const uid = user.uid; //id користувача
+      const uid = user.uid;
 
       async function readTheDoc(id) {
         const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
@@ -234,9 +215,8 @@ function checkWatchedButton(movie, buttonName) {
 
 function checkQueueButton(movie, buttonName) {
   onAuthStateChanged(auth, user => {
-    //перевіряємо чи користувач залогінений
     if (user) {
-      const uid = user.uid; //id користувача
+      const uid = user.uid;
 
       async function readTheDoc(id) {
         const myDoc = await getDoc(doc(firestore, 'users', `${id}`));
@@ -262,14 +242,10 @@ export function closeModal() {
   document.querySelector('.drop-box').classList.add('drop-box--is-hidden');
   document.querySelector('body').classList.remove('overflow-hidden');
   buttonUpEl.classList.remove('is-hidden');
-  // document.querySelector('.movie-list').removeEventListener('click', showModal);
-  // document.querySelector('#modal-btn').removeEventListener('click', closeModal);
 }
 
 export function createModalCard(movie) {
-  return `<img class="modal__img" src="${createImg(
-    movie.poster_path
-  )}" alt="" width="240">
+  return `<img class="modal__img" src="${createImg(movie.poster_path)}" alt="" width="240">
                 <div class="modal__description-thumb">
                     <h2 class="modal__title">${movie.title}</h2>
                     <ul class="movie-data">
@@ -284,26 +260,16 @@ export function createModalCard(movie) {
                         <li>
                             <ul class="movie-data__content">
                                 <li class="movie-data__item">
-                                    <span class="movie-votes__first">${
-                                      movie.vote_average
-                                    }</span> / <span class="movie-votes__sec">${
-    movie.vote_count
-  }</span>
+                                    <span class="movie-votes__first">${movie.vote_average}</span> / <span class="movie-votes__sec">${movie.vote_count}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-popularity__item">${
-                                      movie.popularity
-                                    }</span>
+                                    <span class="movie-popularity__item">${movie.popularity}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-orig-title__item">${
-                                      movie.original_title
-                                    }</span>
+                                    <span class="movie-orig-title__item">${movie.original_title}</span>
                                 </li>
                                 <li class="movie-data__item">
-                                    <span class="movie-genre__item">${createModalGenresString(
-                                      movie.genres
-                                    )}</span>
+                                    <span class="movie-genre__item">${createModalGenresString(movie.genres)}</span>
                                 </li>
                             </ul>
                         </li>  
