@@ -21,7 +21,7 @@ const auth = getAuth();
 function logOut() {
   signOut(auth)
     .then(() => {
-      location.href = '../filmoteka-team3/index.html';
+      location.href = '../index.html';
     })
     .catch(error => {
       console.log(error);
