@@ -34,7 +34,7 @@ onAuthStateChanged(auth, user => {
 function logOut() {
   signOut(auth)
     .then(() => {
-      location.href = '../index.html';
+      location.href = 'https://liliiabarsuk.github.io/filmoteka';
     })
     .catch(error => {
       console.log(error);
